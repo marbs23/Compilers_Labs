@@ -99,6 +99,7 @@ Token* Scanner::nextToken() {
                 else if (c == '-') state = 4;
                 else if (c == '*') state = 5;
                 else if (c == '/') state = 6;
+                else if (c == ';') state = 7;
                 else if (isdigit(c)) state = 8;
                 else return new Token(Token::ERR, c);
                 break;
@@ -114,6 +115,7 @@ Token* Scanner::nextToken() {
                     rollBack();
                     return new Token(Token::MUL, c);
                 }
+            case 7: return new Token(Token::SEMICOLON);
             case 6: return new Token(Token::DIV, c);
             case 8: 
                 c = nextChar();

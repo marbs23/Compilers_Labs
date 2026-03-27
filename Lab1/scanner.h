@@ -19,6 +19,9 @@ public:
     // Retorna el siguiente token
     Token* nextToken();
 
+    // Tabla de keyword Functions
+    Token::Type checkReserved(const string& text);
+
     // Destructor
     ~Scanner();
 

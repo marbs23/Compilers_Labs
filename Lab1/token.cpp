@@ -14,7 +14,7 @@ Token::Token(Type type, char c)
     : type(type), text(string(1, c)) { }
 
 Token::Token(Type type, const string& string)
-    : type(type), text(text) { }
+    : type(type), text(string) { }
 
 Token::Token(Type type, const string& source, int first, int last) 
     : type(type), text(source.substr(first, last)) { }
@@ -35,6 +35,8 @@ ostream& operator<<(ostream& outs, const Token& tok) {
         case Token::NUM:    outs << "TOKEN(NUM, \""    << tok.text << "\")"; break;
         case Token::FLOAT:    outs << "TOKEN(FLOAT, \""    << tok.text << "\")"; break;
         case Token::ID:    outs << "TOKEN(ID, \""    << tok.text << "\")"; break;
+        case Token::FUNC:    outs << "TOKEN(FUNC, \""    << tok.text << "\")"; break;
+        case Token::CONST:    outs << "TOKEN(CONST, \""    << tok.text << "\")"; break;
         case Token::ERR:    outs << "TOKEN(ERR, \""    << tok.text << "\")"; break;
         case Token::END:    outs << "TOKEN(END)"; break;
     }

@@ -109,13 +109,14 @@ Token* Scanner::nextToken() {
             case 2: return new Token(Token::RPAREN);
             case 3: return new Token(Token::PLUS, c);
             case 4: return new Token(Token::MINUS, c);
-            case 5:
+            case 5: {
                 c = nextChar();
                 if (c == '*') return new Token(Token::POW, "**");
                 else {
                     rollBack();
                     return new Token(Token::MUL, c);
                 }
+            }
             case 7: return new Token(Token::SEMICOLON, c);
             case 6: return new Token(Token::DIV, c);
             case 8: 
@@ -137,14 +138,25 @@ Token* Scanner::nextToken() {
                 if (isalpha(c) || isdigit(c)) state = 11;
                 else state = 12;
                 break;
-            case 12:
+            case 12: {
                 rollBack();
-                return new Token(Token::ID, input, first, current - first);
+                string text_aux = input.substr(first, current - first);
+                Token::Type type = checkReserved(text_aux);
+                return new Token(type, input, first, current - first);
+            }
             case 13:
                 rollBack();
                 return new Token(Token::FLOAT, input, first, current - first);
         }
     }
+}
+
+
+Token::Type Scanner::checkReserved(const string& text) {
+    if (text == "SIN" || text == "COS" || text == "TAN" ||
+        text == "LOG" || text == "SQRT") return Token::FUNC;
+    else if (text == "PI" || text == "E") return Token::CONST;
+    else return Token::ID;
 }
 
 void Scanner::rollBack() {

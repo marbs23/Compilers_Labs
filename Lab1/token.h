@@ -23,6 +23,8 @@ public:
         END,     // Fin de entrada
         ID,      // Id
         FLOAT,   // Float
+        FUNC,
+        CONST,
     };
 
     // Atributos

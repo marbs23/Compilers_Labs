@@ -115,7 +115,7 @@ Token* Scanner::nextToken() {
                     rollBack();
                     return new Token(Token::MUL, c);
                 }
-            case 7: return new Token(Token::SEMICOLON);
+            case 7: return new Token(Token::SEMICOLON, c);
             case 6: return new Token(Token::DIV, c);
             case 8: 
                 c = nextChar();

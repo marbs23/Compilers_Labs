@@ -101,6 +101,7 @@ Token* Scanner::nextToken() {
                 else if (c == '/') state = 6;
                 else if (c == ';') state = 7;
                 else if (isdigit(c)) state = 8;
+                else if (isalpha(c)) state = 11;
                 else return new Token(Token::ERR, c);
                 break;
 
@@ -120,12 +121,28 @@ Token* Scanner::nextToken() {
             case 8: 
                 c = nextChar();
                 if (isdigit(c)) state = 8;
+                else if (c == '.') state = 10;
                 else state = 9;
                 break;
-
-            case 9: 
+            case 9:
                 rollBack();
                 return new Token(Token::NUM, input, first, current - first);
+            case 10:
+                c = nextChar();
+                if (isdigit(c)) state = 10;
+                else state = 13;
+                break;
+            case 11:
+                c = nextChar();
+                if (isalpha(c) || isdigit(c)) state = 11;
+                else state = 12;
+                break;
+            case 12:
+                rollBack();
+                return new Token(Token::ID, input, first, current - first);
+            case 13:
+                rollBack();
+                return new Token(Token::FLOAT, input, first, current - first);
         }
     }
 }

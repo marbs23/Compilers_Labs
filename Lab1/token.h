@@ -20,7 +20,9 @@ public:
         NUM,     // Número
         SEMICOLON, // Punto y coma
         ERR,     // Error
-        END,      // Fin de entrada
+        END,     // Fin de entrada
+        ID,      // Id
+        FLOAT,   // Float
     };
 
     // Atributos

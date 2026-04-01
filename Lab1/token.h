@@ -30,12 +30,14 @@ public:
     // Atributos
     Type type;
     string text;
+    int line;
+    int col;
 
     // Constructores
-    Token(Type type);
-    Token(Type type, char c);
-    Token(Type type, const string& string);
-    Token(Type type, const string& source, int first, int last);
+    Token(Type type, int _line, int _col);
+    Token(Type type, char c, int _line, int _col);
+    Token(Type type, const string& string, int _line, int _col);
+    Token(Type type, const string& source, int first, int last, int _line, int _col);
 
     // Sobrecarga de operadores de salida
     friend ostream& operator<<(ostream& outs, const Token& tok);

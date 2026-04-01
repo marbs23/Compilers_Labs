@@ -10,7 +10,9 @@ private:
     string input;
     int first;
     int current;
-    int state;                        // solo para automata  
+    int state;                        // solo para automata 
+    int current_line;
+    int current_col;
 
 public:
     // Constructor

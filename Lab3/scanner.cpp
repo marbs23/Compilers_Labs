@@ -54,13 +54,16 @@ Token* Scanner::nextToken() {
             current++;
         string lexema = input.substr(first, current - first);
         if (lexema=="sqrt") return new Token(Token::SQRT, input, first, current - first);
+        if (lexema=="print") return new Token(Token::PRINT, input, first, current - first);
         else return new Token(Token::ID, input, first, current - first);
     }
     // Operadores
-    else if (strchr("+/-*()", c)) {
+    else if (strchr("+/-*();=", c)) {
         switch (c) {
             case '+': token = new Token(Token::PLUS,  c); break;
             case '-': token = new Token(Token::MINUS, c); break;
+            case ';': token = new Token(Token::SEMICOLON,  c); break;
+            case '=': token = new Token(Token::ASSIGN, c); break;
             case '*': 
             if (input[current+1]=='*')
             {

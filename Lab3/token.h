@@ -17,6 +17,9 @@ public:
         POW,     // **
         LPAREN,  // (
         RPAREN,  // )
+        ASSIGN,  // =
+        SEMICOLON, // ;
+        PRINT,   // print
         SQRT,    // sqrt
         NUM,     // Número
         ERR,     // Error

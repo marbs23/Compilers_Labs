@@ -39,6 +39,18 @@ public:
 
 };
 
+// If Expression
+class IfExp : public Exp {
+public:
+    Exp* left;
+    Exp* mid;
+    Exp* right;
+    int accept(Visitor* visitor);
+    IfExp(Exp* l, Exp* m ,Exp* r);
+    ~IfExp();
+
+};
+
 // Expresión numérica
 class NumberExp : public Exp {
 public:

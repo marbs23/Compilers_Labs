@@ -34,6 +34,14 @@ NumberExp::NumberExp(int v) : value(v) {}
 
 NumberExp::~NumberExp() {}
 
+// ------------------ IfExp ------------------
+IfExp::IfExp(Exp* l, Exp* m, Exp* r) : left(l), mid(m), right(r) {}
+
+IfExp::~IfExp() {
+    delete left;
+    delete mid;
+    delete right;
+}
 
 // ------------------ SqrtExp ------------------
 SqrtExp::SqrtExp(Exp* v) : value(v) {}
@@ -68,7 +76,7 @@ AsignStmt::~AsignStmt() {
 
 }
 
-// ------------------ NumberExp ------------------
+// ------------------ IdExp ------------------
 IdExp::IdExp(string v) : value(v) {}
 
 IdExp::~IdExp() {}

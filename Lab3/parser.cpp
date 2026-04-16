@@ -65,6 +65,14 @@ Exp* Parser::parseProgram() {
     return ast;
 }
 
+Exp* Parser::parseP() {
+    Exp* l = parseStList();
+}
+
+Exp* Parser::parseStList() {
+    
+}
+
 
 Exp* Parser::parseP() {
     Exp* l = parseE();

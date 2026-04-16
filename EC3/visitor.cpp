@@ -24,6 +24,10 @@ int SqrtExp::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
 
+int NegExp::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
 void PrintStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
@@ -57,6 +61,12 @@ int PrintVisitor::visit(SqrtExp* exp) {
     return 0;
 }
 
+int PrintVisitor::visit(NegExp* exp) {
+    cout << "-(";
+    exp->value->accept(this);
+    cout <<  ")";
+    return 0;
+}
 
 void PrintVisitor::imprimir(Programa* programa){
     if (programa)
@@ -107,6 +117,10 @@ int EVALVisitor::visit(NumberExp* exp) {
 
 int EVALVisitor::visit(SqrtExp* exp) {
     return floor(sqrt( exp->value->accept(this)));
+}
+
+int EVALVisitor::visit(NegExp* exp) {
+    return -1*( exp->value->accept(this));
 }
 
 

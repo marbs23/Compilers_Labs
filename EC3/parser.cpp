@@ -167,6 +167,17 @@ Exp* Parser::parseF() {
     else if (match(Token::ID)) {
         return new IdExp(previous->text);
     }
+    else if (match(Token::MAX)) {
+        match(Token::LPAREN);
+        list<Exp*> args;
+        args.push_back(parseCEXP());
+        while (match(Token::COMMA))
+        {
+            args.push_back(parseCEXP());
+        }
+        match(Token::RPAREN);
+        return new MaxExp(args);
+    }
     else if (match(Token::LPAREN))
     {
         e = parseCEXP();

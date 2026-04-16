@@ -64,8 +64,16 @@ public:
     int accept(Visitor* visitor);
     SqrtExp(Exp* v);
     ~SqrtExp();
-}
-;
+};
+
+// Negative Expressions
+class NegExp: public Exp {
+public:
+    Exp* value;
+    int accept(Visitor* visitor);
+    NegExp(Exp* v);
+    ~NegExp();
+};
 
 class Stmt{
 public:

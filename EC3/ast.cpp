@@ -40,6 +40,11 @@ SqrtExp::SqrtExp(Exp* v) : value(v) {}
 
 SqrtExp::~SqrtExp() {}
 
+// ------------------ NegExp ------------------
+NegExp::NegExp(Exp* v) : value(v) {}
+
+NegExp::~NegExp() {}
+
 //
 Programa::Programa() {}
 Programa::~Programa(){}

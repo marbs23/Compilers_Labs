@@ -11,6 +11,7 @@ class SqrtExp;
 class Visitor {
 public:
     virtual int visit(BinaryExp* exp) = 0;
+    virtual int visit(IfExp* exp) = 0;
     virtual int visit(NumberExp* exp) = 0;
     virtual int visit(IdExp* exp) = 0;
     virtual int visit(SqrtExp* exp) = 0;
@@ -24,6 +25,7 @@ class PrintVisitor : public Visitor {
 public:
 
     int visit(BinaryExp* exp) override;
+    int visit(IfExp* exp) override;
     int visit(NumberExp* exp) override;
     int visit(SqrtExp* exp) override;
     int visit(NegExp* exp) override;
@@ -38,6 +40,7 @@ class EVALVisitor : public Visitor {
 public:
     unordered_map<string,int> memoria;
     int visit(BinaryExp* exp) override;
+    int visit(IfExp* exp) override;
     int visit(NumberExp* exp) override;
     int visit(SqrtExp* exp) override;
     int visit(NegExp* exp) override;

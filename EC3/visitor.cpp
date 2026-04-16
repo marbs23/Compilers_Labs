@@ -12,6 +12,10 @@ int BinaryExp::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
 
+int IfExp::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
 int NumberExp::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
@@ -58,6 +62,17 @@ int PrintVisitor::visit(SqrtExp* exp) {
     cout << "sqrt(";
     exp->value->accept(this);
     cout <<  ")";
+    return 0;
+}
+
+int PrintVisitor::visit(IfExp* exp) {
+    cout << "if(";
+    exp->left->accept(this);
+    cout << ',';
+    exp->mid->accept(this);
+    cout << ',';
+    exp->right->accept(this);
+    cout << ')';
     return 0;
 }
 
@@ -140,6 +155,14 @@ void EVALVisitor::visit(AsignStmt *stm) {
 
 int EVALVisitor::visit(IdExp *e) {
     return memoria[e->value];
+}
+
+int EVALVisitor::visit(IfExp *e) {
+    int l = e->left->accept(this);
+    int m = e->mid->accept(this);
+    int r = e->right->accept(this);
+    if (l) return m;
+    else return r;
 }
 
 

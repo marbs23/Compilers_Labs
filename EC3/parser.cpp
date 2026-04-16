@@ -156,6 +156,13 @@ Exp* Parser::parseF() {
         match(Token::RPAREN);
         return new SqrtExp(e);
     }
+    else if (match(Token::MINUS))
+    {
+        match(Token::LPAREN);
+        e = parseCEXP();
+        match(Token::RPAREN);
+        return new NegExp(e);
+    }
     else {
         throw runtime_error("Error sintáctico");
     }

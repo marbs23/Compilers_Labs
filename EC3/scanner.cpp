@@ -47,7 +47,7 @@ Token* Scanner::nextToken() {
             current++;
         token = new Token(Token::NUM, input, first, current - first);
     }
-    // ID
+    // Alpha
     else if (isalpha(c)) {
         current++;
         while (current < input.length() && isalnum(input[current]))
@@ -56,6 +56,7 @@ Token* Scanner::nextToken() {
         if (lexema=="sqrt") return new Token(Token::SQRT, input, first, current - first);
         if (lexema=="print") return new Token(Token::PRINT, input, first, current - first);
         if (lexema=="if") return new Token(Token::IF, input, first, current - first);
+        if (lexema=="max") return new Token(Token::MAX, input, first, current - first);
         else return new Token(Token::ID, input, first, current - first);
     }
     // Operadores

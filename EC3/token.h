@@ -17,15 +17,16 @@ public:
         POW,     // **
         LPAREN,  // (
         RPAREN,  // )
-        PRINT,
-        SEMICOL,
-        ASSIGN,
+        PRINT,   // print
+        SEMICOL, // ;
+        ASSIGN,  // =
         SQRT,    // sqrt
         NUM,     // Número
         ERR,     // Error
         COMMA,   // Comma ,
         ID,      // ID
         IF,      // IfExp
+        MAX,     // Max
         END      // Fin de entrada
     };
 

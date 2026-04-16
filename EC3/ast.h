@@ -48,7 +48,6 @@ public:
     int accept(Visitor* visitor);
     IfExp(Exp* l, Exp* m ,Exp* r);
     ~IfExp();
-
 };
 
 // Max Expression
@@ -58,7 +57,6 @@ public:
     int accept(Visitor* visitor);
     MaxExp(list<Exp*> a);
     ~MaxExp();
-
 };
 
 // Expresión numérica

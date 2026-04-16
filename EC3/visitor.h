@@ -7,6 +7,8 @@
 class BinaryExp;
 class NumberExp;
 class SqrtExp;
+class IfExp;
+class MaxExp;
 
 class Visitor {
 public:

@@ -84,12 +84,13 @@ int PrintVisitor::visit(IfExp* exp) {
 int PrintVisitor::visit(MaxExp* exp) {
     cout << "max(";
     bool first = true;
-    for (auto exp : exp->args)
+    for (auto e : exp->args)
     {
-        if (!first)cout << ' , ';
-        exp->accept(this);
+        if (!first)cout << ", ";
+        e->accept(this);
         first = false;
     }
+    cout << ")";
     return 0;
 }
 
@@ -225,7 +226,7 @@ void PrintVisitor::visit(AsignStmt *stm) {
     cout << " = ";
     for (auto exp : stm->expressions) {
         if (!first) cout << ", ";
-        cout << exp;
+        exp->accept(this);
         first = false;
     }
     cout << endl;

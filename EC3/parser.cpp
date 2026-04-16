@@ -168,8 +168,8 @@ Exp* Parser::parseF() {
         return new IdExp(previous->text);
     }
     else if (match(Token::MAX)) {
-        match(Token::LPAREN);
         list<Exp*> args;
+        match(Token::LPAREN);
         args.push_back(parseCEXP());
         while (match(Token::COMMA))
         {

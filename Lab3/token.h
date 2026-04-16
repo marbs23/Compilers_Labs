@@ -21,6 +21,9 @@ public:
         NUM,     // Número
         ERR,     // Error
         ID,      // ID
+        ASSIGN,  // =
+        PRINT,   // print
+        SEMICOL, // ;
         END      // Fin de entrada
     };
 

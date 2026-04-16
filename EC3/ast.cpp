@@ -53,6 +53,11 @@ NegExp::NegExp(Exp* v) : value(v) {}
 
 NegExp::~NegExp() {}
 
+// ------------------ MaxExp ------------------
+MaxExp::MaxExp(list<Exp*> a) : args(a) {}
+
+MaxExp::~MaxExp() {}
+
 //
 Programa::Programa() {}
 Programa::~Programa(){}
@@ -67,9 +72,8 @@ PrintStmt::~PrintStmt() {
 
 }
 
-AsignStmt::AsignStmt(string texto, Exp * e) {
-    variable=  texto;
-    exp = e;
+AsignStmt::AsignStmt(list<string> v, list<Exp*> e): variables(v), expressions(e) {
+
 }
 
 AsignStmt::~AsignStmt() {

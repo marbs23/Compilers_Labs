@@ -150,7 +150,15 @@ void EVALVisitor::interprete(Programa* programa){
 }
 
 void EVALVisitor::visit(AsignStmt *stm) {
-    memoria[stm->variable]=stm->exp->accept(this);
+    auto varIt = stm->variables.begin();
+    auto expIt = stm->expressions.begin();
+    while (varIt != stm->variables.end() && expIt != stm->expressions.end())
+    {
+        memoria[*varIt] = (*expIt)->accept(this);
+        varIt++;
+        expIt++;
+    }
+        
 }
 
 int EVALVisitor::visit(IdExp *e) {
@@ -179,8 +187,19 @@ void EVALVisitor::visit(Programa *p) {
 
 
 void PrintVisitor::visit(AsignStmt *stm) {
-    cout << stm->variable << " = ";
-    stm->exp->accept(this);
+    bool first = true;
+    for (auto var : stm->variables) {
+        if (!first) cout << ", ";
+        cout << var;
+        first = false;
+    }
+    first = true;
+    cout << " = ";
+    for (auto exp : stm->expressions) {
+        if (!first) cout << ", ";
+        cout << exp;
+        first = false;
+    }
     cout << endl;
 }
 void PrintVisitor::visit(PrintStmt *stm) {

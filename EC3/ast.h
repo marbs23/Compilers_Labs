@@ -51,6 +51,16 @@ public:
 
 };
 
+// Max Expression
+class MaxExp : public Exp {
+public:
+    list<Exp*> args;
+    int accept(Visitor* visitor);
+    MaxExp(list<Exp*> a);
+    ~MaxExp();
+
+};
+
 // Expresión numérica
 class NumberExp : public Exp {
 public:
@@ -95,10 +105,10 @@ public:
 
 class AsignStmt : public Stmt {
 public:
-    string variable;
-    Exp* exp;
+    list<string> variables;
+    list<Exp*> expressions;
     void accept(Visitor* visitor) override;
-    AsignStmt(string, Exp*);
+    AsignStmt(list<string>, list<Exp*>);
     ~AsignStmt();
 };
 

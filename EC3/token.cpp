@@ -32,9 +32,11 @@ ostream& operator<<(ostream& outs, const Token& tok) {
         case Token::POW:    outs << "TOKEN(POW, \""    << tok.text << "\")"; break;
         case Token::SQRT:    outs << "TOKEN(SQRT, \""    << tok.text << "\")"; break;
         case Token::ID:    outs << "TOKEN(ID, \""    << tok.text << "\")"; break;
+        case Token::COMMA:    outs << "TOKEN(COMMA, \""    << tok.text << "\")"; break;
         case Token::NUM:    outs << "TOKEN(NUM, \""    << tok.text << "\")"; break;
         case Token::ERR:    outs << "TOKEN(ERR, \""    << tok.text << "\")"; break;
         case Token::SEMICOL:    outs << "TOKEN(SEMICOL, \""    << tok.text << "\")"; break;
+        case Token::IF:    outs << "TOKEN(IF, \""    << tok.text << "\")"; break;
         case Token::PRINT:    outs << "TOKEN(PRINT, \""    << tok.text << "\")"; break;
         case Token::ASSIGN:    outs << "TOKEN(ASSIGN, \""    << tok.text << "\")"; break;
         case Token::END:    outs << "TOKEN(END)"; break;

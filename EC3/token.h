@@ -23,7 +23,9 @@ public:
         SQRT,    // sqrt
         NUM,     // Número
         ERR,     // Error
+        COMMA,   // Comma ,
         ID,      // ID
+        IF,      // IfExp
         END      // Fin de entrada
     };
 

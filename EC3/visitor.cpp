@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <climits>
 #include "ast.h"
 #include "visitor.h"
 
@@ -13,6 +14,10 @@ int BinaryExp::accept(Visitor* visitor) {
 }
 
 int IfExp::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
+int MaxExp::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
 
@@ -73,6 +78,18 @@ int PrintVisitor::visit(IfExp* exp) {
     cout << ',';
     exp->right->accept(this);
     cout << ')';
+    return 0;
+}
+
+int PrintVisitor::visit(MaxExp* exp) {
+    cout << "max(";
+    bool first = true;
+    for (auto exp : exp->args)
+    {
+        if (!first)cout << ' , ';
+        exp->accept(this);
+        first = false;
+    }
     return 0;
 }
 
@@ -170,8 +187,19 @@ int EVALVisitor::visit(IfExp *e) {
     int m = e->mid->accept(this);
     int r = e->right->accept(this);
     if (l) return m;
-    else return r;
+    return r;
 }
+
+int EVALVisitor::visit(MaxExp *e) {
+    int result = INT_MIN;
+    for (auto e : e->args)
+    {
+        int value = e->accept(this);
+        if (value > result) result = value; 
+    }
+    return result;
+}
+ 
 
 
 void EVALVisitor::visit(PrintStmt *stm) {

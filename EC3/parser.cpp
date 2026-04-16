@@ -140,6 +140,17 @@ Exp* Parser::parseF() {
     if (match(Token::NUM)) {
         return new NumberExp(stoi(previous->text));
     }
+    else if (match(Token::IF))
+    {
+        match(Token::LPAREN);
+        Exp* e1 = parseCEXP();
+        match(Token::COMMA);
+        Exp* e2 = parseCEXP();
+        match(Token::COMMA);
+        Exp* e3 = parseCEXP();
+        match(Token::RPAREN);
+        return new IfExp(e1, e2, e3);
+    }
     else if (match(Token::ID)) {
         return new IdExp(previous->text);
     }

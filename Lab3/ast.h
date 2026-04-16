@@ -58,39 +58,4 @@ public:
 }
 ;
 
-class Stmt
-{
-public:
-    virtual int accept(Visitor* Visitor) = 0;
-    ~Stmt() {}
-};
-
-class PrintStmt : public Stmt
-{
-public:
-    Exp* value;
-    int accept(Visitor* visitor);
-    PrintStmt(Exp* v) {}
-    ~PrintStmt() {}
-};
-
-class AssignStmt : public Stmt
-{
-public:
-    Exp* value;
-    string id;
-    int accept(Visitor* visitor);
-    AssignStmt(Exp* v, string ide) {}
-    ~AssignStmt() {}
-};
-
-class Program
-{
-public:
-    Program() {}
-    list<Stmt*> slist;
-    int accept(Visitor* visitor);
-    ~Program() {};
-};
-
 #endif // AST_H

@@ -39,21 +39,3 @@ NumberExp::~NumberExp() {}
 SqrtExp::SqrtExp(Exp* v) : value(v) {}
 
 SqrtExp::~SqrtExp() {}
-
-// ------------------ Program ------------------
-Program::Program() {}
-
-Program::~Program() {}
-
-// ------------ Stmt (virtual) ------------------
-Stmt::~Stmt() {}
-
-// ------------------ PrintStmt ------------------
-PrintStmt::PrintStmt(Exp* v):value(v) {}
-
-PrintStmt::~PrintStmt() {}
-
-// ------------------ AssignStmt ------------------
-AssignStmt::AssignStmt(Exp* v, string ide):value(v), id(ide) {}
-
-AssignStmt::~AssignStmt() {}

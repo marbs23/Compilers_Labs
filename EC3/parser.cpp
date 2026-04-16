@@ -83,10 +83,23 @@ Stmt *Parser::parsestmt() {
         return new PrintStmt(e);
     }
     else if (match(Token::ID)) {
-        string texto = previous->text;
+        list<string> variables;
+        variables.push_back(previous->text);
+
+        while (match(Token::COMMA) )
+        {
+            match(Token::ID);
+            variables.push_back(previous->text);
+        }        
+
         match(Token::ASSIGN);
-        e = parseCEXP();
-        return new AsignStmt(texto,e);
+        list<Exp*> expressions;
+        expressions.push_back(parseCEXP());
+        while (match(Token::COMMA))
+        {
+            expressions.push_back(parseCEXP());
+        }
+        return new AsignStmt(variables,expressions);
     }
 }
 

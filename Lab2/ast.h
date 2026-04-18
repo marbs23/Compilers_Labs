@@ -50,4 +50,15 @@ public:
     void toDot(std::ostream& out, int& id) const override; 
 };
 
+// Expresión numérica
+class SqrtExp : public Exp {
+public:
+    Exp* value;
+
+    SqrtExp(Exp* e);
+    ~SqrtExp();
+
+    void toDot(std::ostream& out, int& id) const override; 
+};
+
 #endif // AST_H

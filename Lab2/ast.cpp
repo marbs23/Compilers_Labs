@@ -53,3 +53,13 @@ void NumberExp::toDot(ostream& out, int& id) const {
     int myId = id++;
     out << "  node" << myId << " [label=\"" << value << "\"];\n";
 }
+
+// ------------------ SqrtExp ------------------
+SqrtExp::SqrtExp(Exp* v) : value(v) {}
+
+SqrtExp::~SqrtExp() {}
+
+void SqrtExp::toDot(ostream& out, int& id) const {
+    int myId = id++;
+    out << "  node" << myId << " [label=\"" << value << "\"];\n";
+}

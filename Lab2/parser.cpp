@@ -107,6 +107,12 @@ Exp* Parser::parseF() {
     if (match(Token::NUM)) {
         return new NumberExp(stoi(previous->text));
     }
+    else if (match(Token::SQRT)) {
+        match(Token::LPAREN);
+        e = parseP();
+        match(Token::RPAREN);
+        return new SqrtExp(e);
+    }
     else if (match(Token::LPAREN)) {
         e = parseP();
         if (!match(Token::RPAREN)) throw runtime_error("Error sintáctico");

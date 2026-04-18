@@ -90,13 +90,15 @@ Exp* Parser::parseCE() {
 
 Exp* Parser::parseE() {
     Exp* l = parseT();
-    while (match(Token::MUL) || match(Token::DIV)) {
+    while (match(Token::MUL) || match(Token::DIV) || match(Token::MOD)) {
         BinaryOp op;
         if (previous->type == Token::MUL){
             op = MUL_OP;
         }
-        else{
+        else if (previous->type == Token::DIV) {
             op = DIV_OP;
+        } else {
+            op = MOD_OP;
         }
         Exp* r = parseT();
         l = new BinaryExp(l, r, op);
@@ -131,6 +133,11 @@ Exp* Parser::parseF() {
         match(Token::RPAREN);
         return new IfExp(e1, e2, e3);
     }
+    else if (match(Token::FLOAT))
+    {
+        return new FloatExp(stof(previous->text));
+    }
+    
     else if (match(Token::LPAREN))
     {
         e = parseCE();
@@ -143,6 +150,12 @@ Exp* Parser::parseF() {
         e = parseCE();
         match(Token::RPAREN);
         return new SqrtExp(e);
+    }
+    else if (match(Token::PI)) {
+        return new PiExp("pi");
+    }
+    else if (match(Token::E)) {
+        return new EExp("e");
     }
     else if (match(Token::ID))
     {   

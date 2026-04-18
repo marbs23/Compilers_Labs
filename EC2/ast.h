@@ -15,7 +15,8 @@ enum BinaryOp {
     MINUS_OP, 
     MUL_OP, 
     DIV_OP,
-    POW_OP
+    POW_OP,
+    MOD_OP
 };
 
 // Clase abstracta Exp
@@ -47,6 +48,15 @@ public:
     void toDot(std::ostream& out, int& id) const override; 
 };
 
+// Float Expression
+class FloatExp : public Exp {
+public:
+    float value;
+    FloatExp(float v);
+    ~FloatExp();
+    void toDot(std::ostream& out, int& id) const override; 
+};
+
 // Expresión numérica
 class IdExp : public Exp {
 public:
@@ -62,6 +72,26 @@ public:
     Exp* value;
     SqrtExp(Exp* v);
     ~SqrtExp();
+    void toDot(std::ostream& out, int& id) const override; 
+}
+;
+
+// EExp
+class EExp : public Exp {
+public:
+    string value;
+    EExp(string v);
+    ~EExp();
+    void toDot(std::ostream& out, int& id) const override; 
+}
+;
+
+// PiExp
+class PiExp : public Exp {
+public:
+    string value;
+    PiExp(string v);
+    ~PiExp();
     void toDot(std::ostream& out, int& id) const override; 
 }
 ;

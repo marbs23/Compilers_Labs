@@ -13,6 +13,7 @@ string Exp::binopToChar(BinaryOp op) {
         case MUL_OP:   return "*";
         case DIV_OP:   return "/";
         case POW_OP:   return "**";
+        case MOD_OP:   return "%";
         default:       return "?";
     }
 }
@@ -45,11 +46,25 @@ NumberExp::NumberExp(int v) : value(v) {}
 
 NumberExp::~NumberExp() {}
 
+// ------------------ FloatExp ------------------
+FloatExp::FloatExp(float v) : value(v) {}
+
+FloatExp::~FloatExp() {}
 
 // ------------------idExp ------------------
 IdExp::IdExp(string v) : value(v) {}
 
 IdExp::~IdExp() {}
+
+// ------------------EExp ------------------
+EExp::EExp(string v) : value(v) {}
+
+EExp::~EExp() {}
+
+// ------------------PiExp ------------------
+PiExp::PiExp(string v) : value(v) {}
+
+PiExp::~PiExp() {}
 
 // ------------------ SqrtExp ------------------
 SqrtExp::SqrtExp(Exp* v) : value(v) {}
@@ -92,6 +107,21 @@ void SqrtExp::toDot(ostream& out, int& id) const {
 }
 
 void IdExp::toDot(ostream& out, int& id) const {
+    int myId = id++;
+    out << "  node" << myId << " [label=\"" << value << "\"];\n";
+}
+
+void FloatExp::toDot(ostream& out, int& id) const {
+    int myId = id++;
+    out << "  node" << myId << " [label=\"" << value << "\"];\n";
+}
+
+void EExp::toDot(ostream& out, int& id) const {
+    int myId = id++;
+    out << "  node" << myId << " [label=\"" << value << "\"];\n";
+}
+
+void PiExp::toDot(ostream& out, int& id) const {
     int myId = id++;
     out << "  node" << myId << " [label=\"" << value << "\"];\n";
 }

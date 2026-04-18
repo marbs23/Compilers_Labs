@@ -48,6 +48,15 @@ Token* Scanner::nextToken() {
         token = new Token(Token::NUM, input, first, current - first);
     }
 
+    // Alpha
+    else if(isalpha(c)) {
+        current++;
+        while (current < input.length() && isalpha(input[current]))
+            current++;
+        string lexema = input.substr(first, current - first);
+        if (lexema=="sqrt") return new Token(Token::SQRT, input, first, current - first);
+    }
+
     // Operadores
     else if (strchr("+/-*()", c)) {
         switch (c) {

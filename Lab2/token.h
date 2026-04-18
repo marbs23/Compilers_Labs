@@ -17,6 +17,7 @@ public:
         POW,     // ^
         LPAREN,  // (
         RPAREN,  // )
+        SQRT,    // Sqrt
         NUM,     // Número
         ERR,     // Error
         END      // Fin de entrada

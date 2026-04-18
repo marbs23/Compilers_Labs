@@ -45,7 +45,18 @@ Token* Scanner::nextToken() {
         current++;
         while (current < input.length() && isdigit(input[current]))
             current++;
-        token = new Token(Token::NUM, input, first, current - first);
+
+        if (current < input.length() && input[current] == '.') {
+            current++;
+            while (current < input.length() && isdigit(input[current]))
+                current++;
+            token = new Token(Token::FLOAT, input, first, current - first);
+        }
+        else {
+            while (current < input.length() && isdigit(input[current]))
+                current++;
+            token = new Token(Token::NUM, input, first, current - first);
+        }
     }
     // ID
     else if (isalpha(c)) {
@@ -55,10 +66,12 @@ Token* Scanner::nextToken() {
         string lexema = input.substr(first, current - first);
         if (lexema=="sqrt") return new Token(Token::SQRT, input, first, current - first);
         else if (lexema == "if") return new Token(Token::IF, input, first, current - first);
+        else if (lexema == "pi") return new Token(Token::PI, input, first, current - first);
+        else if (lexema == "e") return new Token(Token::E, input, first, current - first);
         else return new Token(Token::ID, input, first, current - first);
     }
     // Operadores
-    else if (strchr("+/-*();=,", c)) {
+    else if (strchr("+/-*();=,%", c)) {
         switch (c) {
             case '+': token = new Token(Token::PLUS,  c); break;
             case '-': token = new Token(Token::MINUS, c); break;
@@ -75,6 +88,7 @@ Token* Scanner::nextToken() {
             case '/': token = new Token(Token::DIV,   c); break;
             case '(': token = new Token(Token::LPAREN,c); break;
             case ')': token = new Token(Token::RPAREN,c); break;
+            case '%': token = new Token(Token::MOD, c); break;
             case ',': token = new Token(Token::COMMA, c); break;
 
         }

@@ -22,6 +22,10 @@ public:
         ERR,     // Error
         ID,      // ID
         IF,      // IF
+        FLOAT,   // Float
+        PI,      // pi
+        E,       // e
+        MOD,     // %
         COMMA,   // COMMA
         END      // Fin de entrada
     };

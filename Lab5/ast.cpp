@@ -85,3 +85,12 @@ Vardec::~Vardec(){}
 
 Body::Body(){}
 Body::~Body(){}
+
+Fundec::Fundec(){}
+Fundec::~Fundec(){}
+
+ReturnStmt::ReturnStmt(){}
+ReturnStmt::~ReturnStmt(){}
+
+FcallExp::FcallExp(){}
+FcallExp::~FcallExp(){}

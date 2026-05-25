@@ -130,9 +130,40 @@ public:
     ~Body();
 };
 
+class FcallExp : public Exp{
+public:
+    string name;
+    list<Exp*> args;
+    int accept(Visitor* visitor);
+    FcallExp();
+    ~FcallExp();
+};
+
+
+class Fundec{
+public:
+    string name;
+    string type;
+    list<string> parameters_types;
+    list<string> parameters_ids;
+    Body* body;
+    void accept(Visitor* visitor);
+    Fundec();
+    ~Fundec();
+};
+
+class ReturnStmt : public Stmt {
+public:
+    Exp* e;
+    void accept(Visitor* visitor) override;
+    ReturnStmt();
+    ~ReturnStmt();
+};
+
 class Programa {
 public:
-    Body* cuerpo;
+    list<Vardec*> vdlist;
+    list<Fundec*> flist;
     void accept(Visitor* visitor);
     ~Programa();
     Programa();

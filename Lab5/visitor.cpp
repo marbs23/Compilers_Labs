@@ -24,6 +24,10 @@ int SqrtExp::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
 
+int FcallExp::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
 void PrintStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
@@ -37,6 +41,14 @@ void WhileStmt::accept(Visitor* visitor) {
 }
 
 void IfStmt::accept(Visitor* visitor) {
+    visitor->visit(this);
+}
+
+void Fundec::accept(Visitor* visitor) {
+    visitor->visit(this);
+}
+
+void ReturnStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
 
@@ -152,8 +164,6 @@ void EVALVisitor::visit(Programa *p) {
     memoria.remove_level();
 }
 
-
-
 void PrintVisitor::visit(AsignStmt *stm) {
     cout << stm->variable << " = ";
     stm->exp->accept(this);
@@ -256,3 +266,12 @@ void PrintVisitor::visit(Body * cuerpo) {
         i->accept(this);
     }
 }
+
+int PrintVisitor::visit(ReturnStmt* stm) {return 0;}
+int EvalVisitor::visit(ReturnStmt* stm) {return 0;}
+
+void PrintVisitor::visit(ReturnStmt* stm) {}
+void EvalVisitor::visit(ReturnStmt* stm) {}
+
+void PrintVisitor::visit(ReturnStmt* stm) {}
+void EvalVisitor::visit(ReturnStmt* stm) {}

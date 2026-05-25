@@ -22,6 +22,9 @@ public:
     virtual void visit(WhileStmt* stm) = 0;
     virtual void visit(Vardec* vd) = 0;
     virtual void visit(Body* cuerpo) = 0;
+    virtual void visit(ReturnStmt* stm) = 0;
+    virtual void visit(Fundec* fd) = 0;
+    virtual int visit(FcallExp* exp) = 0;
     virtual void visit(Programa* program) = 0;
 };
 
@@ -37,6 +40,9 @@ public:
     void visit(IfStmt* stm) override;
     void visit(WhileStmt* stm) override;
     void visit(Vardec* vd) ;
+    int visit(FcallExp* exp) ;
+    void visit(ReturnStmt* exp) ;
+    void visit(Fundec* exp) ;
     void visit(Body* cuerpo);
     void imprimir(Programa* program);
 };

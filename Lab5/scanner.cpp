@@ -59,7 +59,9 @@ Token* Scanner::nextToken() {
         if (lexema=="else") return new Token(Token::ELSE, input, first, current - first);
         if (lexema=="then") return new Token(Token::THEN, input, first, current - first);
         if (lexema=="endif") return new Token(Token::ENDIF, input, first, current - first);
-
+        if (lexema=="def") return new Token(Token::DEF, input, first, current - first);
+        if (lexema=="endfun") return new Token(Token::ENDFUN, input, first, current - first);
+        if (lexema=="return") return new Token(Token::RETURN, input, first, current - first); 
         if (lexema=="while") return new Token(Token::WHILE, input, first, current - first);
         if (lexema=="endwhile") return new Token(Token::ENDWHILE, input, first, current - first);
         if (lexema=="do") return new Token(Token::DO, input, first, current - first); 
@@ -67,10 +69,11 @@ Token* Scanner::nextToken() {
         else return new Token(Token::ID, input, first, current - first);
     }
     // Operadores
-    else if (strchr(",+/-*();=\"  ", c)) {
+    else if (strchr(",+/-*():;=\"  ", c)) {
         switch (c) {
             case '\'':
             case ',': token = new Token(Token::COMA,  c); break;
+            case ':': token = new Token(Token::COLON,  c); break;
             case ';': token = new Token(Token::SEMICOL,  c); break;
             case '=': token = new Token(Token::ASSIGN, c); break;
             case '+': token = new Token(Token::PLUS,  c); break;

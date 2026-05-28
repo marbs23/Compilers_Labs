@@ -16,6 +16,10 @@ int NumberExp::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
 
+int NegExp::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
 int IdExp::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
@@ -57,7 +61,7 @@ void Body::accept(Visitor* visitor) {
 }
 
 void BreakStmt::accept(Visitor* visitor) {
-    return visitor->visit(this);
+    visitor->visit(this);
 }
 
 int FcallExp::accept(Visitor* visitor) {
@@ -65,15 +69,15 @@ int FcallExp::accept(Visitor* visitor) {
 }
 
 void IncrementalStmt::accept(Visitor* visitor) {
-    return visitor->visit(this);
+    visitor->visit(this);
 }
 
 void ReturnStm::accept(Visitor* visitor) {
-    return visitor->visit(this);
+    visitor->visit(this);
 }
 
 void Fundec::accept(Visitor* visitor) {
-    return visitor->visit(this);
+    visitor->visit(this);
 }
 
 void Programa::accept(Visitor* visitor) {
@@ -92,6 +96,13 @@ int PrintVisitor::visit(BinaryExp* exp) {
 
 int PrintVisitor::visit(NumberExp* exp) {
     cout << exp->value;
+    return 0;
+}
+
+int PrintVisitor::visit(NegExp* exp) {
+    cout << "not(";
+    cout << exp->e->accept(this);
+    cout << ")";
     return 0;
 }
 
@@ -145,6 +156,12 @@ int EVALVisitor::visit(BinaryExp* exp) {
         case EQUIV_OP:
             result = (v1 == v2);
             break;
+        case AND_OP:
+            result = (v1 && v2);
+            break;
+        case OR_OP:
+            result = (v1 || v2);
+            break;
         default:
             cout << "Operador desconocido" << endl;
             result = 0;
@@ -154,6 +171,10 @@ int EVALVisitor::visit(BinaryExp* exp) {
 
 int EVALVisitor::visit(NumberExp* exp) {
     return exp->value;
+}
+
+int EVALVisitor::visit(NegExp* exp) {
+    return !(exp->e->accept(this));
 }
 
 int EVALVisitor::visit(SqrtExp* exp) {
@@ -242,6 +263,7 @@ void PrintVisitor::visit(DoWhileStmt *stm) {
     stm->cuerpo->accept(this);
     cout << " while" << endl;
     stm->condicion->accept(this);
+    cout << endl;
     cout << "endwhile" << endl;
 }
     
@@ -263,6 +285,7 @@ void EVALVisitor::visit(Vardec *vd) {
 
 int EVALVisitor::visit(IdExp *e) {
     return memoria.lookup(e->value);
+    cout << memoria.lookup(e->value)<< " xd dsafdaf12313";
 }
 
 void EVALVisitor::visit(AsignStmt *stm) {
@@ -339,7 +362,7 @@ void PrintVisitor::visit(FcallStmt* exp) {
         i->accept(this);
         cout << ",";
     }
-    cout << ")";
+    cout << ")" << endl;
 }
 
 void EVALVisitor::visit(Programa *p) {
@@ -400,6 +423,7 @@ void EVALVisitor::visit(WhileStmt *stm) {
     while( (stm->condicion->accept(this)!=0) and (haybreak ==false)  ){
         stm->cuerpo->accept(this);
     }
+    haybreak = false;
 }
 
 void EVALVisitor::visit(DoWhileStmt *stm) {

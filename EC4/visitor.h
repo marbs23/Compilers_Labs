@@ -9,11 +9,13 @@
 class BinaryExp;
 class NumberExp;
 class SqrtExp;
+class NegExp;
 
 class Visitor {
 public:
     virtual int visit(BinaryExp* exp) = 0;
     virtual int visit(NumberExp* exp) = 0;
+    virtual int visit(NegExp* exp) = 0;
     virtual int visit(IdExp* exp) = 0;
     virtual int visit(SqrtExp* exp) = 0;
     virtual void visit(AsignStmt* stm) = 0;
@@ -36,6 +38,7 @@ class PrintVisitor : public Visitor {
 public:
     int visit(BinaryExp* exp) override;
     int visit(NumberExp* exp) override;
+    int visit(NegExp* exp) override;
     int visit(SqrtExp* exp) override;
     void visit(AsignStmt* stm) override;
     void visit(PrintStmt* stm) override;
@@ -64,6 +67,7 @@ public:
     bool hayretorno;
     int visit(BinaryExp* exp) override;
     int visit(NumberExp* exp) override;
+    int visit(NegExp* exp) override;
     int visit(SqrtExp* exp) override;
     void visit(AsignStmt* stm) override;
     void visit(PrintStmt* stm) override;

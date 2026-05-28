@@ -20,7 +20,9 @@ enum BinaryOp {
     DIV_OP,
     LET_OP,
     EQUIV_OP,
-    POW_OP
+    POW_OP,
+    AND_OP,
+    OR_OP,
 };
 
 // Clase abstracta Exp
@@ -59,6 +61,14 @@ public:
     int accept(Visitor* visitor);
     IdExp(string v);
     ~IdExp();
+};
+
+class NegExp : public Exp {
+public:
+    Exp* e;
+    int accept(Visitor* visitor);
+    NegExp(Exp* e);
+    ~NegExp();
 };
 
 // Raiz cuadrada

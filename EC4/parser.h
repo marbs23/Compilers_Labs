@@ -20,6 +20,8 @@ public:
     Body* parseBody();
     Stmt* parsestmt();
     Vardec* parsevardec();
+    Exp* parseBFactor();
+    Exp* parseCompExp();
     Exp* parseAEXP();
     Exp* parseCEXP();                   // Regla gramatical P
     Exp* parseE();                   // Regla gramatical E

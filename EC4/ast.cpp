@@ -15,6 +15,8 @@ string Exp::binopToChar(BinaryOp op) {
         case LET_OP:   return "<";
         case POW_OP:   return "**";
         case EQUIV_OP:   return "=";
+        case AND_OP:   return "and";
+        case OR_OP:   return "or";
         default:       return "?";
     }
 }
@@ -27,6 +29,11 @@ BinaryExp::BinaryExp(Exp* l, Exp* r, BinaryOp o)
 BinaryExp::~BinaryExp() {
     delete left;
     delete right;
+}
+
+NegExp::NegExp(Exp* _e):e(_e) {}
+NegExp::~NegExp() {
+    delete e;
 }
 
 

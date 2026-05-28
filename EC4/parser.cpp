@@ -214,6 +214,28 @@ Stmt *Parser::parsestmt() {
 }
 
 Exp* Parser::parseCEXP() {
+    Exp* l = parseBFactor();
+    while (match(Token::AND) || match(Token::OR)) {
+        BinaryOp op;
+        if (previous->type == Token::AND)
+            op = AND_OP;
+        else
+            op = OR_OP;
+        Exp* r = parseBFactor();
+        l = new BinaryExp(l,r,op);
+    }
+    return l;
+}
+
+Exp* Parser::parseBFactor() {
+    if (match(Token::NOT)) {
+        Exp* e = parseCompExp();
+        return new NegExp(e);
+    }
+    return parseCompExp();
+}
+
+Exp* Parser::parseCompExp() {
     Exp* l = parseAEXP();
     if (match(Token::EQUIV)|| match(Token::LET)) {
         BinaryOp op;
@@ -228,6 +250,7 @@ Exp* Parser::parseCEXP() {
     }
     return l;
 }
+
 Exp* Parser::parseAEXP() {
     Exp* l = parseE();
     while (match(Token::PLUS) || match(Token::MINUS)) {
@@ -280,6 +303,11 @@ Exp* Parser::parseF() {
     }
     else if (match(Token::ID)) {
         string variable = previous ->text;
+        if (variable == "true")
+            return new NumberExp(1);
+        else if (variable == "false")
+            return new NumberExp(0);
+        
         if(match(Token::LPAREN)){
             FcallExp* fcall = new FcallExp();
             fcall -> nombre = variable;

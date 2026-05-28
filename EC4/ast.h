@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <list>
+#include <vector>
 #include <ostream>
 
 using namespace std;
@@ -17,6 +18,8 @@ enum BinaryOp {
     MINUS_OP, 
     MUL_OP, 
     DIV_OP,
+    LET_OP,
+    EQUIV_OP,
     POW_OP
 };
 
@@ -110,6 +113,12 @@ public:
     WhileStmt(Exp* e);
     ~WhileStmt();
 };
+class BreakStmt : public Stmt{
+public:
+    void accept(Visitor* visitor);
+    BreakStmt(){};
+    ~BreakStmt(){};
+};
 
 
 class Vardec{
@@ -130,39 +139,42 @@ public:
     ~Body();
 };
 
-class FcallExp : public Exp{
+class Fundec {
 public:
-    string name;
-    list<Exp*> args;
-    int accept(Visitor* visitor);
-    FcallExp();
-    ~FcallExp();
-};
-
-class Fundec{
-public:
-    string name;
-    string type;
-    list<string> parameters_types;
-    list<string> parameters_ids;
-    Body* body;
+    string nombre;
+    string tipo;
+    vector<string> tipos_parametros;
+    vector<string> id_parametros;
+    Body* cuerpo;
     void accept(Visitor* visitor);
     Fundec();
     ~Fundec();
 };
 
-class ReturnStmt : public Stmt {
+class FcallExp : public Exp{
 public:
-    Exp* e;
-    void accept(Visitor* visitor) override;
-    ReturnStmt();
-    ~ReturnStmt();
+    string nombre;
+    vector<Exp*> argumentos;
+    int accept(Visitor* visitor);
+    FcallExp();
+    ~FcallExp();
 };
+
+class ReturnStm : public Stmt{
+public:
+    Exp* exp;
+    void accept(Visitor* visitor) override;
+    ReturnStm();
+    ~ReturnStm();
+};
+
+
+
 
 class Programa {
 public:
     list<Vardec*> vdlist;
-    list<Fundec*> flist;
+    list<Fundec*> fdlist;
     void accept(Visitor* visitor);
     ~Programa();
     Programa();

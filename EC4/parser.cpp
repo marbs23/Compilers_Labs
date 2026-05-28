@@ -68,43 +68,49 @@ Programa* Parser::parseProgram() {
 
 Programa* Parser::parseP() {
     Programa* p =  new Programa();
+
     while(check(Token::VAR)){
         p->vdlist.push_back(parsevardec());
         match(Token::SEMICOL);
     }
     while(check(Token::DEF)){
-        p->flist.push_back(parseFundec());
+        p->fdlist.push_back(parsefundec());
     }
     return p;
 }
 
-Fundec* Parser::parseFundec() {
+
+Fundec* Parser::parsefundec(){
     Fundec* fd = new Fundec();
     match(Token::DEF);
     match(Token::ID);
-    fd->type = previous->text;
+    fd->tipo = previous->text;
     match(Token::ID);
-    fd->name = previous->text;
+    fd->nombre = previous->text;
     match(Token::LPAREN);
-    if (check(Token::ID))
-    {
+    if(check(Token::ID)){
         match(Token::ID);
-        fd->parameters_types.push_back(previous->text);
+        fd->tipos_parametros.push_back(previous->text);
         match(Token::ID);
-        fd->parameters_ids.push_back(previous->text);
-        while (match(Token::COMA)){
+        fd->id_parametros.push_back(previous->text);
+        while(match(Token::COMA)){
             match(Token::ID);
-            fd->parameters_types.push_back(previous->text);
+            fd->tipos_parametros.push_back(previous->text);
             match(Token::ID);
-            fd->parameters_ids.push_back(previous->text);
+            fd->id_parametros.push_back(previous->text);
         }
+    
     }
     match(Token::RPAREN);
-    match(Token::COLON);
-    fd->body = parseBody();
+    match(Token::DOSPUNTOS);
+    fd->cuerpo = parseBody();
     match(Token::ENDFUN);
     return fd;
 }
+
+
+
+
 
 Body* Parser::parseBody() {
     Body* cuerpo =  new Body();
@@ -136,17 +142,19 @@ Vardec* Parser::parsevardec(){
 
 Stmt *Parser::parsestmt() {
     Exp* e;
+    if (match(Token::BREAK)){
+        return new BreakStmt();
+    }
     if (match(Token::PRINT)) {
         match(Token::LPAREN);
         e = parseCEXP();
         match(Token::RPAREN);
         return new PrintStmt(e);
     }
-    else if (match(Token::RETURN))
-    {
-        ReturnStmt* r = new ReturnStmt();
-        r->e = parseCEXP();
-        return r;
+    if (match(Token::RETURN)) {
+        ReturnStm* tilin = new ReturnStm();
+        tilin->exp = parseCEXP(); 
+        return tilin;
     }
     else if (match(Token::IF)){
         e = parseCEXP();
@@ -163,24 +171,37 @@ Stmt *Parser::parsestmt() {
     
     else if (match(Token::WHILE)){
         e = parseCEXP();
-        WhileStmt* wstm = new WhileStmt(e); 
+        WhileStmt* Trampolin = new WhileStmt(e); 
         match(Token::DO);
-        wstm->cuerpo = parseBody();
+        Trampolin->cuerpo = parseBody();
         match(Token::ENDWHILE);
-        return wstm;
+        return Trampolin;
     }
+        
     else if (match(Token::ID)) {
         string texto = previous->text;
         match(Token::ASSIGN);
         e = parseCEXP();
         return new AsignStmt(texto,e);
     }
-    else if (match(Token::BREAK)) {
-        return new BreakStmt();
-    }
 }
 
 Exp* Parser::parseCEXP() {
+    Exp* l = parseAEXP();
+    if (match(Token::EQUIV)|| match(Token::LET)) {
+        BinaryOp op;
+        if (previous->type == Token::EQUIV){
+            op = EQUIV_OP;
+        }
+        else{
+            op = LET_OP;
+        }
+        Exp* r = parseAEXP();
+        l = new BinaryExp(l, r, op);
+    }
+    return l;
+}
+Exp* Parser::parseAEXP() {
     Exp* l = parseE();
     while (match(Token::PLUS) || match(Token::MINUS)) {
         BinaryOp op;
@@ -231,17 +252,18 @@ Exp* Parser::parseF() {
         return new NumberExp(stoi(previous->text));
     }
     else if (match(Token::ID)) {
-        string var = previous->text;
-        if (match(Token::LPAREN)) {
+        string variable = previous ->text;
+        if(match(Token::LPAREN)){
             FcallExp* fcall = new FcallExp();
-            fcall->name = var;
-            fcall->args.push_back(parseCEXP());
-            while (match(Token::COMA))
-                fcall->args.push_back(parseCEXP());
+            fcall -> nombre = variable;
+            fcall -> argumentos.push_back(parseCEXP());
+            while(match(Token::COMA)){
+                fcall -> argumentos.push_back(parseCEXP());
+            }
             match(Token::RPAREN);
             return fcall;
         }
-        return new IdExp(previous->text);
+        else{ return new IdExp(variable);}
     }
     else if (match(Token::LPAREN))
     {

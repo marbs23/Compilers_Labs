@@ -231,9 +231,10 @@ Exp* Parser::parseF() {
         return new NumberExp(stoi(previous->text));
     }
     else if (match(Token::ID)) {
+        string var = previous->text;
         if (match(Token::LPAREN)) {
             FcallExp* fcall = new FcallExp();
-            fcall->name = previous->text;
+            fcall->name = var;
             fcall->args.push_back(parseCEXP());
             while (match(Token::COMA))
                 fcall->args.push_back(parseCEXP());

@@ -288,8 +288,24 @@ void PrintVisitor::visit(ReturnStmt* stm) {
 }
 void EVALVisitor::visit(ReturnStmt* stm) {}
 
-void PrintVisitor::visit(Fundec* fd) {}
+void PrintVisitor::visit(Fundec* fd) {
+    cout << "def " << fd->type << " " << fd->name << "(";
+    for (auto i : fd->parameters_ids){
+        cout << i << ",";
+    }
+    cout << "):" << endl;
+    fd->body->accept(this);
+    cout << "endfun" << endl;
+}
 void EVALVisitor::visit(Fundec* fd) {}
 
-int PrintVisitor::visit(FcallExp* e) {return 0;}
+int PrintVisitor::visit(FcallExp* e) {
+    cout << e->name << "(" ;
+    for (auto i:e->args){
+        i->accept(this);
+        cout << ",";
+    }
+    cout << ")";
+    return 0;
+}
 int EVALVisitor::visit(FcallExp* e) {return 0;}

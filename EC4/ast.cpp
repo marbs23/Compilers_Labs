@@ -96,3 +96,6 @@ ReturnStm::~ReturnStm(){}
 
 FcallExp::FcallExp(){}
 FcallExp::~FcallExp(){}
+
+IncrementalStmt::IncrementalStmt(string _n, Exp* _e):name(_n),e(_e){}
+IncrementalStmt::~IncrementalStmt(){}

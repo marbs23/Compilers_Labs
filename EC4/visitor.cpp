@@ -56,6 +56,10 @@ int FcallExp::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
 
+void IncrementalStmt::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
 void ReturnStm::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
@@ -179,6 +183,13 @@ void PrintVisitor::visit(PrintStmt *stm) {
     cout << "print (";
     stm->exp->accept(this);
     cout << ")"<< endl;
+}
+
+void PrintVisitor::visit(IncrementalStmt *stm) {
+    cout << stm->name;
+    cout << "+=";
+    stm->e->accept(this);
+    cout << endl;
 }
 
 
@@ -345,6 +356,9 @@ void EVALVisitor::visit(BreakStmt* stm){
     haybreak = true;
 }
 
+void EVALVisitor::visit(IncrementalStmt* stm){
+    memoria.update(stm->name, memoria.lookup(stm->name) + stm->e->accept(this));
+}
 
 void EVALVisitor::visit(WhileStmt *stm) {
     while( (stm->condicion->accept(this)!=0) and (haybreak ==false)  ){

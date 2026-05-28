@@ -28,6 +28,7 @@ public:
         RETURN,
         DO,
         ENDWHILE,
+        INCREMENTAL,
         IF,
         VAR,
         COMA,

@@ -180,6 +180,11 @@ Stmt *Parser::parsestmt() {
         
     else if (match(Token::ID)) {
         string texto = previous->text;
+        if (match(Token::INCREMENTAL))
+        {
+            e = parseCEXP();
+            return new IncrementalStmt(texto,e);
+        }
         match(Token::ASSIGN);
         e = parseCEXP();
         return new AsignStmt(texto,e);

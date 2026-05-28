@@ -68,8 +68,7 @@ public:
     int accept(Visitor* visitor);
     SqrtExp(Exp* v);
     ~SqrtExp();
-}
-;
+};
 
 class Stmt{
 public:
@@ -120,6 +119,14 @@ public:
     ~BreakStmt(){};
 };
 
+class IncrementalStmt : public Stmt {
+public:
+    string name;    
+    Exp* e;
+    void accept(Visitor* visitor) override;
+    IncrementalStmt(string _n, Exp* _e);
+    ~IncrementalStmt();
+};
 
 class Vardec{
 public:    

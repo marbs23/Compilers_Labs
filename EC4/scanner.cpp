@@ -88,7 +88,16 @@ Token* Scanner::nextToken() {
                 token = new Token(Token::ASSIGN,   c);
             }
             break;
-            case '+': token = new Token(Token::PLUS,  c); break;
+            case '+':
+            if (input[current+1]=='=')
+            {
+                current++;
+                token = new Token(Token::INCREMENTAL, input, first, current + 1 - first);
+            }
+            else{
+                token = new Token(Token::PLUS, c);
+            }
+            break;
             case '-': token = new Token(Token::MINUS, c); break;
             case '*': 
             if (input[current+1]=='*')

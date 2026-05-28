@@ -23,6 +23,7 @@ public:
     virtual void visit(Vardec* vd) = 0;
     virtual void visit(Body* cuerpo) = 0;
     virtual int visit(FcallExp* exp) = 0;
+    virtual void visit(IncrementalStmt* exp) = 0;
     virtual void visit(ReturnStm* stm) = 0;
     virtual void visit(BreakStmt * stm) = 0;
     virtual void visit(Fundec* fd) = 0;
@@ -42,6 +43,7 @@ public:
     void visit(WhileStmt* stm) override;
     void visit(Vardec* vd) ;
     int  visit(FcallExp* exp) ;
+    void visit(IncrementalStmt* exp);
     void visit(ReturnStm* stm) ;
     void visit(BreakStmt * stm);
     void visit(Fundec* fd) ;
@@ -68,7 +70,8 @@ public:
     void visit(Vardec* vd);
     void visit(Body* cuerpo);
     void visit(BreakStmt * stm);
-    int  visit(FcallExp* exp) ;
+    int  visit(FcallExp* exp);
+    void visit(IncrementalStmt* exp);
     void visit(ReturnStm* stm) ;
     void visit(Fundec* fd) ;
     void interprete(Programa* program);

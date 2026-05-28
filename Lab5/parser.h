@@ -16,6 +16,7 @@ public:
     Parser(Scanner* scanner);       
     Programa* parseProgram();             // Punto de entrada: analiza un programa completo
     Programa* parseP();
+    Fundec* parseFundec();
     Body* parseBody();
     Stmt* parsestmt();
     Vardec* parsevardec();

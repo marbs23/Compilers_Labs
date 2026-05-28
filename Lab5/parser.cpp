@@ -68,8 +68,42 @@ Programa* Parser::parseProgram() {
 
 Programa* Parser::parseP() {
     Programa* p =  new Programa();
-    p->cuerpo = parseBody();
+    while(check(Token::VAR)){
+        p->vdlist.push_back(parsevardec());
+        match(Token::SEMICOL);
+    }
+    while(check(Token::DEF)){
+        p->flist.push_back(parseFundec());
+    }
     return p;
+}
+
+Fundec* Parser::parseFundec() {
+    Fundec* fd = new Fundec();
+    match(Token::DEF);
+    match(Token::ID);
+    fd->type = previous->text;
+    match(Token::ID);
+    fd->name = previous->text;
+    match(Token::LPAREN);
+    if (check(Token::ID))
+    {
+        match(Token::ID);
+        fd->parameters_types.push_back(previous->text);
+        match(Token::ID);
+        fd->parameters_ids.push_back(previous->text);
+        while (match(Token::COMA)){
+            match(Token::ID);
+            fd->parameters_types.push_back(previous->text);
+            match(Token::ID);
+            fd->parameters_ids.push_back(previous->text);
+        }
+    }
+    match(Token::RPAREN);
+    match(Token::COLON);
+    fd->body = parseBody();
+    match(Token::ENDFUN);
+    return fd;
 }
 
 Body* Parser::parseBody() {
@@ -107,6 +141,12 @@ Stmt *Parser::parsestmt() {
         e = parseCEXP();
         match(Token::RPAREN);
         return new PrintStmt(e);
+    }
+    if (match(Token::RETURN))
+    {
+        ReturnStmt* r = new ReturnStmt();
+        r->e = parseCEXP();
+        return r;
     }
     else if (match(Token::IF)){
         e = parseCEXP();
@@ -191,6 +231,15 @@ Exp* Parser::parseF() {
         return new NumberExp(stoi(previous->text));
     }
     else if (match(Token::ID)) {
+        if (match(Token::LPAREN)) {
+            FcallExp* fcall = new FcallExp();
+            fcall->name = previous->text;
+            fcall->args.push_back(parseCEXP());
+            while (match(Token::COMA))
+                fcall->args.push_back(parseCEXP());
+            match(Token::RPAREN);
+            return fcall;
+        }
         return new IdExp(previous->text);
     }
     else if (match(Token::LPAREN))

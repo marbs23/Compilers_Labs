@@ -142,7 +142,7 @@ Stmt *Parser::parsestmt() {
         match(Token::RPAREN);
         return new PrintStmt(e);
     }
-    if (match(Token::RETURN))
+    else if (match(Token::RETURN))
     {
         ReturnStmt* r = new ReturnStmt();
         r->e = parseCEXP();

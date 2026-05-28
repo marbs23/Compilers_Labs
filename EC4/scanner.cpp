@@ -67,6 +67,7 @@ Token* Scanner::nextToken() {
         if (lexema=="while") return new Token(Token::WHILE, input, first, current - first);
         if (lexema=="endwhile") return new Token(Token::ENDWHILE, input, first, current - first);
         if (lexema=="do") return new Token(Token::DO, input, first, current - first); 
+        if (lexema=="enddo") return new Token(Token::ENDDO, input, first, current - first); 
         if (lexema=="var") return new Token(Token::VAR, input, first, current - first);            
         else return new Token(Token::ID, input, first, current - first);
     }

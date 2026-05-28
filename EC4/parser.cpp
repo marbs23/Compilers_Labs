@@ -168,6 +168,16 @@ Stmt *Parser::parsestmt() {
         match(Token::ENDIF);
         return ifstm;
     }
+    if (match(Token::DO))
+    {
+        Body* b = parseBody();
+        match(Token::WHILE);
+        e = parseCEXP();
+        DoWhileStmt* dwstm = new DoWhileStmt(e);
+        dwstm->cuerpo = b;
+        match(Token::ENDDO);
+        return dwstm;
+    }
     
     else if (match(Token::WHILE)){
         e = parseCEXP();

@@ -36,6 +36,10 @@ void WhileStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
 
+void DoWhileStmt::accept(Visitor* visitor) {
+    visitor->visit(this);
+}
+
 void IfStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
@@ -228,6 +232,14 @@ void PrintVisitor::visit(WhileStmt *stm) {
     stm->cuerpo->accept(this);
     cout << "endwhile" << endl;
 }
+
+void PrintVisitor::visit(DoWhileStmt *stm) {
+    cout << "do" << endl;
+    stm->cuerpo->accept(this);
+    cout << " while" << endl;
+    stm->condicion->accept(this);
+    cout << "endwhile" << endl;
+}
     
 
 
@@ -361,6 +373,13 @@ void EVALVisitor::visit(IncrementalStmt* stm){
 }
 
 void EVALVisitor::visit(WhileStmt *stm) {
+    while( (stm->condicion->accept(this)!=0) and (haybreak ==false)  ){
+        stm->cuerpo->accept(this);
+    }
+}
+
+void EVALVisitor::visit(DoWhileStmt *stm) {
+    stm->cuerpo->accept(this);
     while( (stm->condicion->accept(this)!=0) and (haybreak ==false)  ){
         stm->cuerpo->accept(this);
     }

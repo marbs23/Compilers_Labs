@@ -112,6 +112,15 @@ public:
     WhileStmt(Exp* e);
     ~WhileStmt();
 };
+class DoWhileStmt : public Stmt{
+public:
+    Exp* condicion;
+    Body* cuerpo;
+    void accept(Visitor* visitor) override;
+    DoWhileStmt(Exp* e);
+    ~DoWhileStmt();
+};
+
 class BreakStmt : public Stmt{
 public:
     void accept(Visitor* visitor);

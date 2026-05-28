@@ -82,6 +82,13 @@ WhileStmt::WhileStmt(Exp* e){
 }
 
 WhileStmt::~WhileStmt(){}
+
+DoWhileStmt::DoWhileStmt(Exp* e){
+    condicion = e;
+}
+
+DoWhileStmt::~DoWhileStmt(){}
+
 Vardec::Vardec(){}
 Vardec::~Vardec(){}
 

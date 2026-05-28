@@ -20,6 +20,7 @@ public:
     virtual void visit(PrintStmt* stm) = 0;
     virtual void visit(IfStmt* stm) = 0;
     virtual void visit(WhileStmt* stm) = 0;
+    virtual void visit(DoWhileStmt* stm) = 0;
     virtual void visit(Vardec* vd) = 0;
     virtual void visit(Body* cuerpo) = 0;
     virtual int visit(FcallExp* exp) = 0;
@@ -41,6 +42,7 @@ public:
     int visit(IdExp* exp) override;
     void visit(IfStmt* stm) override;
     void visit(WhileStmt* stm) override;
+    void visit(DoWhileStmt* stm) override;
     void visit(Vardec* vd) ;
     int  visit(FcallExp* exp) ;
     void visit(IncrementalStmt* exp);
@@ -66,6 +68,7 @@ public:
     int visit(IdExp* exp) override;
     void visit(IfStmt* stm) override;
     void visit(WhileStmt* stm) override;
+    void visit(DoWhileStmt* stm) override;
     void visit(Programa* program) override;
     void visit(Vardec* vd);
     void visit(Body* cuerpo);

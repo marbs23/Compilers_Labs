@@ -27,6 +27,7 @@ public:
         ENDFUN,
         RETURN,
         DO,
+        ENDDO,
         ENDWHILE,
         INCREMENTAL,
         IF,

@@ -189,8 +189,20 @@ Stmt *Parser::parsestmt() {
     }
         
     else if (match(Token::ID)) {
-        string texto = previous->text;
-        if (match(Token::INCREMENTAL))
+        string texto = previous ->text;
+        if(match(Token::LPAREN)){
+            FcallStmt* fcall = new FcallStmt();
+            fcall -> nombre = texto;
+            if (!check(Token::RPAREN)){
+                fcall -> argumentos.push_back(parseCEXP());
+                while(match(Token::COMA)){
+                    fcall -> argumentos.push_back(parseCEXP());
+                }            
+            }
+            match(Token::RPAREN);
+            return fcall;
+        }
+        else if (match(Token::INCREMENTAL))
         {
             e = parseCEXP();
             return new IncrementalStmt(texto,e);
@@ -271,10 +283,12 @@ Exp* Parser::parseF() {
         if(match(Token::LPAREN)){
             FcallExp* fcall = new FcallExp();
             fcall -> nombre = variable;
-            fcall -> argumentos.push_back(parseCEXP());
-            while(match(Token::COMA)){
+            if (!check(Token::RPAREN)){
                 fcall -> argumentos.push_back(parseCEXP());
-            }
+                while(match(Token::COMA)){
+                    fcall -> argumentos.push_back(parseCEXP());
+                }
+            }            
             match(Token::RPAREN);
             return fcall;
         }

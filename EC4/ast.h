@@ -120,6 +120,15 @@ public:
     DoWhileStmt(Exp* e);
     ~DoWhileStmt();
 };
+class FcallStmt : public Stmt{
+public:
+    string nombre;
+    vector<Exp*> argumentos;
+    void accept(Visitor* visitor);
+    FcallStmt();
+    ~FcallStmt();
+};
+
 
 class BreakStmt : public Stmt{
 public:

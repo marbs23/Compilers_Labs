@@ -65,6 +65,9 @@ AsignStmt::~AsignStmt() {
 
 }
 
+FcallStmt::FcallStmt() {}
+FcallStmt::~FcallStmt() {}
+
 // ------------------ NumberExp ------------------
 IdExp::IdExp(string v) : value(v) {}
 

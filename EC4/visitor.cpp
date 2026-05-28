@@ -32,6 +32,10 @@ void AsignStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
 
+void FcallStmt::accept(Visitor* visitor) {
+    visitor->visit(this);
+}
+
 void WhileStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
@@ -329,6 +333,15 @@ int PrintVisitor::visit(FcallExp* exp) {
     return 0;
 }
 
+void PrintVisitor::visit(FcallStmt* exp) {
+    cout << exp->nombre << "(" ;
+    for (auto i:exp->argumentos){
+        i->accept(this);
+        cout << ",";
+    }
+    cout << ")";
+}
+
 void EVALVisitor::visit(Programa *p) {
     memoria.clear();
     memoria.add_level();
@@ -355,6 +368,17 @@ int EVALVisitor::visit(FcallExp* exp) {
     fd->cuerpo->accept(this);
     memoria.remove_level();
     return retorno;
+    }
+
+void EVALVisitor::visit(FcallStmt* exp) {
+    hayretorno = false;
+    Fundec* fd = fmemoria[exp->nombre];
+    memoria.add_level();
+    for (int i=0; i<fd->id_parametros.size();i++ ){
+        memoria.add_var(fd->id_parametros[i],exp->argumentos[i]->accept(this));
+    }
+    fd->cuerpo->accept(this);
+    memoria.remove_level();
     }
 
 void EVALVisitor::visit(ReturnStm* stm) {

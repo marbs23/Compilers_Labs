@@ -61,6 +61,9 @@ public:
     void visit(Programa* program) override;
     void visit(Vardec* vd);
     void visit(Body* cuerpo);
+    int  visit(FcallExp* exp) ;
+    void visit(ReturnStmt* stm) ;
+    void visit(Fundec* fd) ;
     void interprete(Programa* program);
 };
 

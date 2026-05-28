@@ -158,11 +158,22 @@ void EVALVisitor::visit(PrintStmt *stm) {
 }
 
 void EVALVisitor::visit(Programa *p) {
+    for(auto i:p->vdlist){
+        i->accept(this);
+    }
+    for(auto i:p->flist){
+        i->accept(this);
+    }
+}
+
+/*
+void EVALVisitor::visit(Programa *p) {
     memoria.clear();
     memoria.add_level();
     p->cuerpo->accept(this);
     memoria.remove_level();
 }
+*/
 
 void PrintVisitor::visit(AsignStmt *stm) {
     cout << stm->variable << " = ";
@@ -176,7 +187,10 @@ void PrintVisitor::visit(PrintStmt *stm) {
 }
 
 void PrintVisitor::visit(Programa * p) {
-    p->cuerpo->accept(this);
+    for(auto i:p->vdlist)
+        i->accept(this);
+    for(auto i:p->flist)
+        i->accept(this);
 }
 
 int PrintVisitor::visit(IdExp *e) {
@@ -267,11 +281,15 @@ void PrintVisitor::visit(Body * cuerpo) {
     }
 }
 
-int PrintVisitor::visit(ReturnStmt* stm) {return 0;}
-int EvalVisitor::visit(ReturnStmt* stm) {return 0;}
+void PrintVisitor::visit(ReturnStmt* stm) {
+    cout << "return " ;
+    stm->e->accept(this);
+    cout << endl;
+}
+void EVALVisitor::visit(ReturnStmt* stm) {}
 
-void PrintVisitor::visit(ReturnStmt* stm) {}
-void EvalVisitor::visit(ReturnStmt* stm) {}
+void PrintVisitor::visit(Fundec* fd) {}
+void EVALVisitor::visit(Fundec* fd) {}
 
-void PrintVisitor::visit(ReturnStmt* stm) {}
-void EvalVisitor::visit(ReturnStmt* stm) {}
+int PrintVisitor::visit(FcallExp* e) {return 0;}
+int EVALVisitor::visit(FcallExp* e) {return 0;}

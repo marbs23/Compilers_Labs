@@ -32,10 +32,24 @@ int PrintStm::accept(Visitor* visitor) {
 ///////////////////////////////////////////////////////////////////////////////////
 
 int GenCodeVisitor::visit(BinaryExp* exp) {
+    exp->left->accept(this);
+    cout << "pushq %rax" << endl;
+    exp->right->accept(this);
+    cout << "movq %rax, %rcx" << endl;
+    cout << "popq %rax" << endl;
+    switch(exp->op) {
+        case PLUS_OP:{
+            cout << "addq %rcx, %rax" << endl;
+            break;
+        }
+        default:
+            cout << "Operador desconocido" << endl;
+    }
     return 0;
 }
 
 int GenCodeVisitor::visit(NumberExp* exp) {
+    cout << "movq $" << exp->value << ", %rax" << endl;
     return 0;
 }
 
@@ -44,31 +58,34 @@ int GenCodeVisitor::visit(IdExp* exp) {
 }
 
 void GenCodeVisitor::visit(AssignStm* stm) {
-
 }
 
 void GenCodeVisitor::visit(PrintStm* stm) {
+    stm->e->accept(this);
+    cout << "movq %rax, %rsi" << endl;
+    cout << "leaq print_fmt(%rip), %rdi" << endl;
+    cout << "call printf@PLT" << endl;
 }
 
 void GenCodeVisitor::codigo(Program* program){
-    // PROLOGO
+    // PROLOGUE
     cout << ".data" << endl;
     cout << "print_fmt: .string \"%ld\\n\" " << endl;
     cout << ".text" << endl;
     cout << ".globl main" << endl;
-    cout << "main" << endl;
-    cout << ".pushq %rbp" << endl;
-    cout << ".movq %rsp, %rbp" << endl;
-    
+    cout << "main:" << endl;
+    cout << "pushq %rbp" << endl;
+    cout << "movq %rsp, %rbp" << endl;
+
     for (auto i : program->slist){
         i->accept(this);
     }
     
-    // EPILOGO
+    // EPILOGUE
     cout << "movq $0, %rax" << endl;
     cout << "leave" << endl;
     cout << "ret" << endl;
-    cout << ".section .note.GNU-stack,\"\",@progbits" << endl;
+    cout << ".section .note.GNU-stack,\"\",@progbits  " << endl;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////

@@ -51,11 +51,8 @@ int main(int argc, const char* argv[]) {
     }
 
 
-    PrintVisitor impresion;
-    impresion.imprimir(ast);
-    
-    EVALVisitor interprete;
-    interprete.interprete(ast);
+    GenCodeVisitor code;
+    code.codigo(ast);
 
     return 0;
 }

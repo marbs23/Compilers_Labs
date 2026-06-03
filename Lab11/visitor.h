@@ -31,7 +31,7 @@ public:
 
 class GenCodeVisitor : public Visitor {
 public:
-    void imprimir(Program* program);
+    void codigo(Program* program);
     int visit(BinaryExp* exp) override;
     int visit(NumberExp* exp) override;
     int visit(IdExp* exp) override;

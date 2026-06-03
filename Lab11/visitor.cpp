@@ -31,6 +31,48 @@ int PrintStm::accept(Visitor* visitor) {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
+int GenCodeVisitor::visit(BinaryExp* exp) {
+    return 0;
+}
+
+int GenCodeVisitor::visit(NumberExp* exp) {
+    return 0;
+}
+
+int GenCodeVisitor::visit(IdExp* exp) {
+    return 0;
+}
+
+void GenCodeVisitor::visit(AssignStm* stm) {
+
+}
+
+void GenCodeVisitor::visit(PrintStm* stm) {
+}
+
+void GenCodeVisitor::codigo(Program* program){
+    // PROLOGO
+    cout << ".data" << endl;
+    cout << "print_fmt: .string \"%ld\\n\" " << endl;
+    cout << ".text" << endl;
+    cout << ".globl main" << endl;
+    cout << "main" << endl;
+    cout << ".pushq %rbp" << endl;
+    cout << ".movq %rsp, %rbp" << endl;
+    
+    for (auto i : program->slist){
+        i->accept(this);
+    }
+    
+    // EPILOGO
+    cout << "movq $0, %rax" << endl;
+    cout << "leave" << endl;
+    cout << "ret" << endl;
+    cout << ".section .note.GNU-stack,\"\",@progbits" << endl;
+};
+
+///////////////////////////////////////////////////////////////////////////////////
+
 int PrintVisitor::visit(BinaryExp* exp) {
     exp->left->accept(this);
     cout << ' ' << Exp::binopToChar(exp->op) << ' ';

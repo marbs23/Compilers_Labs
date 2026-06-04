@@ -31,6 +31,8 @@ public:
 
 class GenCodeVisitor : public Visitor {
 public:
+    unordered_map<string, int> position;
+    int counter = 1;
     void codigo(Program* program);
     int visit(BinaryExp* exp) override;
     int visit(NumberExp* exp) override;

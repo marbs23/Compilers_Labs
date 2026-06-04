@@ -42,8 +42,6 @@ int GenCodeVisitor::visit(BinaryExp* exp) {
             cout << "addq %rcx, %rax" << endl;
             break;
         }
-        default:
-            cout << "Operador desconocido" << endl;
     }
     return 0;
 }
@@ -54,10 +52,16 @@ int GenCodeVisitor::visit(NumberExp* exp) {
 }
 
 int GenCodeVisitor::visit(IdExp* exp) {
+    cout << "movq -" << position[exp->value]*8 << "(%rbp)" << ", %rax" << endl;
     return 0;
 }
 
 void GenCodeVisitor::visit(AssignStm* stm) {
+    stm->e->accept(this);
+    position[stm->id] = counter;
+    counter++;
+    cout << "movq %rax, -" << position[stm->id]*8 << "(%rbp)" << endl;
+    cout << "";
 }
 
 void GenCodeVisitor::visit(PrintStm* stm) {

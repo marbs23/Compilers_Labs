@@ -58,16 +58,22 @@ bool Parser::isAtEnd() {
 
 Program* Parser::parseProgram() {
     Program* p = new Program();
-    p->add(parseStm());
-    while(match(Token::SEMICOL)){
-        p->add(parseStm());
-    }
+    p->b = parseBody();
     if (!isAtEnd()) {
         throw runtime_error("Error sintáctico");
     }
     
     cout << "Parseo exitoso" << endl;
     return p;
+}
+
+Body* Parser::parseBody() {
+    Body* b = new Body();
+    b->add(parseStm());
+    while(match(Token::SEMICOL)){
+        b->add(parseStm());
+    }
+    return b;
 }
 
 Stm* Parser::parseStm() {
@@ -85,7 +91,32 @@ Stm* Parser::parseStm() {
         e = parseCE();
         match(Token::RPAREN);
         return new PrintStm(e);
+    } 
+    else if (match(Token::IF)){
+        IfStm* ifstm = new IfStm();
+        ifstm->cond = parseCE();
+        match(Token::THEN);
+        ifstm->bodyIf = parseBody();
+        if (match(Token::ELSE))
+            ifstm->bodyElse = parseBody();
+        match(Token::ENDIF);
+        return ifstm;
     }
+    else if (match(Token::WHILE)){
+        WhileStm* whilestm = new WhileStm();
+        whilestm->cond = parseCE();
+        match(Token::DO);
+        whilestm->body = parseBody();
+        match(Token::ENDWHILE);
+        return whilestm;
+    }
+    else if (match(Token::DO)){
+        DoWhileStm* dowhilestm = new DoWhileStm();
+        dowhilestm->body = parseBody();
+        match(Token::WHILE);
+        dowhilestm->cond = parseCE();
+        return dowhilestm;
+    }    
 
     else{
         throw runtime_error("Error sintáctico");

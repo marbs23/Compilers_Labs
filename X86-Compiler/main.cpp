@@ -50,7 +50,6 @@ int main(int argc, const char* argv[]) {
         ast = nullptr; 
     }
 
-
     GenCodeVisitor code;
     code.codigo(ast);
 

@@ -15,6 +15,7 @@ private:
 public:
     Parser(Scanner* scanner);       
     Program* parseProgram();             // Punto de entrada: analiza un programa completo
+    Body* parseBody();
     Stm* parseStm();
     Exp* parseCE();                   // Regla gramatical P
     Exp* parseBE();

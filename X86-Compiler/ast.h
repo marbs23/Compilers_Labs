@@ -8,7 +8,8 @@
 
 using namespace std;
 
-class Visitor; 
+class Visitor;
+class Body;
 
 // Operadores binarios soportados
 enum BinaryOp { 
@@ -80,13 +81,45 @@ public:
     ~PrintStm();
     int accept(Visitor* visitor);
 };
+class IfStm: public Stm {
+public:
+    Exp* cond;
+    Body* bodyIf;
+    Body* bodyElse;
+    IfStm();
+    ~IfStm();
+    int accept(Visitor* visitor);
+};
+class WhileStm: public Stm {
+public:
+    Exp* cond;
+    Body* body;
+    WhileStm();
+    ~WhileStm();
+    int accept(Visitor* visitor);
+};
+class DoWhileStm: public Stm {
+public:
+    Exp* cond;
+    Body* body;
+    DoWhileStm();
+    ~DoWhileStm();
+    int accept(Visitor* visitor);
+};
 
-
-class Program{
+class Body {
 public:
     list<Stm*> slist;
-    Program();
     void add(Stm*);
+    int accept(Visitor* visitor);
+    Body();
+    ~Body();
+};
+
+class Program {
+public:
+    Body* b;
+    Program();
     ~Program();
     int accept(Visitor* visitor);
 };

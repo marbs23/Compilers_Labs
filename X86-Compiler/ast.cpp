@@ -20,15 +20,13 @@ string Exp::binopToChar(BinaryOp op) {
 
 // ------------------ BinaryExp ------------------
 BinaryExp::BinaryExp(Exp* l, Exp* r, BinaryOp o)
-    : left(l), right(r), op(o) {}
+: left(l), right(r), op(o) {}
 
-    
+
 BinaryExp::~BinaryExp() {
     delete left;
     delete right;
 }
-
-
 
 // ------------------ NumberExp ------------------
 NumberExp::NumberExp(int v) : value(v) {}
@@ -41,28 +39,42 @@ IdExp::IdExp(string v) : value(v) {}
 
 IdExp::~IdExp() {}
 
-//////////////////////////
-
+// ------------------ Stm ------------------
 Stm::~Stm(){}
 
-PrintStm::~PrintStm(){}
-
-AssignStm::~AssignStm(){}
-
-Program::~Program(){}
-
+// ------------------ PrintStm ------------------
 PrintStm::PrintStm(Exp* expresion){
     e=expresion;
 }
+PrintStm::~PrintStm(){}
 
+// ------------------ AssignStm ------------------
 AssignStm::AssignStm(string variable,Exp* expresion){
     id = variable;
     e = expresion;
 }
+AssignStm::~AssignStm(){}
 
-Program::Program(){}
+// ------------------ IfStm ------------------
+IfStm::IfStm(){}
+IfStm::~IfStm(){}
 
-void Program::add(Stm* a){
+// ------------------ WhileStm ------------------
+WhileStm::WhileStm(){}
+WhileStm::~WhileStm(){}
+
+// ------------------ DoWhileStm ------------------
+DoWhileStm::DoWhileStm(){}
+DoWhileStm::~DoWhileStm(){}
+
+// ------------------ Body ------------------
+Body::Body(){}
+void Body::add(Stm* a){
     slist.push_back(a);
 }
+Body::~Body(){}
 
+
+// ------------------ Program ------------------
+Program::Program(){}
+Program::~Program(){}

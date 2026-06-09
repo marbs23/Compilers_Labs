@@ -17,18 +17,10 @@ public:
     virtual int visit(IdExp* exp) = 0;
     virtual void visit(AssignStm* stm) = 0;
     virtual void visit(PrintStm* stm) = 0;
+    virtual void visit(IfStm* stm) = 0;
+    virtual void visit(WhileStm* stm) = 0;
+    virtual void visit(DoWhileStm* stm) = 0;
 };
-
-class PrintVisitor : public Visitor {
-public:
-    void imprimir(Program* program);
-    int visit(BinaryExp* exp) override;
-    int visit(NumberExp* exp) override;
-    int visit(IdExp* exp) override;
-    void visit(AssignStm* stm) override;
-    void visit(PrintStm* stm) override;
-};
-
 class GenCodeVisitor : public Visitor {
 public:
     unordered_map<string, int> position;
@@ -39,16 +31,8 @@ public:
     int visit(IdExp* exp) override;
     void visit(AssignStm* stm) override;
     void visit(PrintStm* stm) override;
+    void visit(IfStm* stm) override;
+    void visit(WhileStm* stm) override;
+    void visit(DoWhileStm* stm) override;
 };
-
-class EVALVisitor : public Visitor {
-public:
-    void interprete(Program* program);
-    int visit(BinaryExp* exp) override;
-    int visit(NumberExp* exp) override;
-    int visit(IdExp* exp) override;
-    void visit(AssignStm* stm) override;
-    void visit(PrintStm* stm) override;
-};
-
 #endif // VISITOR_H

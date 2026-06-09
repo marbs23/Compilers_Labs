@@ -65,25 +65,79 @@ Token* Scanner::nextToken() {
         else return new Token(Token::ID, input, first, current - first);
     }
     // Operadores
-    else if (strchr("+/-*();=<", c)) {
+    else if (strchr("+/-*();=<>!|&", c)) {
         switch (c) {
-            case '<': token = new Token(Token::LE,  c); break;
+            case '<': {
+                if (current+1 < input.length() && input[current+1] == '='){
+                    current++;
+                    token = new Token(Token::LE, input, first, current + 1 - first);
+                } else{
+                    token = new Token(Token::LT,  c); break;
+                }
+                break;
+            }
+            case '&': {
+                if (current+1 < input.length() && input[current+1] == '&'){
+                    current++;
+                    token = new Token(Token::AND, input, first, current + 1 - first);
+                } else{
+                    token = new Token(Token::ERR, c);
+                }
+                
+                break;
+            }
+            case '|': {
+                if (current+1 < input.length() && input[current+1] == '|'){
+                    current++;
+                    token = new Token(Token::OR, input, first, current + 1 - first);
+                } else{
+                    token = new Token(Token::ERR, c);
+                }
+                
+                break;
+            }
+            case '>': {
+                if (current+1 < input.length() && input[current+1] == '='){
+                    current++;
+                    token = new Token(Token::GE, input, first, current + 1 - first);
+                } else{
+                    token = new Token(Token::GT,  c); break;
+                }
+                break;
+            }
             case '+': token = new Token(Token::PLUS,  c); break;
             case '-': token = new Token(Token::MINUS, c); break;
-            case '*': 
-            if (input[current+1]=='*')
-            {
-                current++;
-                token = new Token(Token::POW, input, first, current + 1 - first);
-            }
-            else{
-                token = new Token(Token::MUL,   c);
-            }
-            break;
+            case '*':{
+                if (current+1 < input.length() && input[current+1]=='*'){
+                    current++;
+                    token = new Token(Token::POW, input, first, current + 1 - first);
+                }
+                else{
+                    token = new Token(Token::MUL,   c);
+                }
+                break;
+            } 
             case '/': token = new Token(Token::DIV,   c); break;
+            case '!':{
+                if (current+1 < input.length() && input[current+1]=='='){
+                    current++;
+                    token = new Token(Token::NE, input, first, current + 1 - first);
+                } else{
+                    token = new Token(Token::ERR, c);
+                }
+                break;
+            } 
             case '(': token = new Token(Token::LPAREN,c); break;
             case ')': token = new Token(Token::RPAREN,c); break;
-            case '=': token = new Token(Token::ASSIGN,c); break;
+            case '=':{
+                if (current+1 < input.length() && input[current+1] == '='){
+                    current++;
+                    token = new Token(Token::EQ, input, first, current + 1 - first);
+                } else{
+                    token = new Token(Token::ASSIGN,c); break;
+                }
+                break;
+            }
             case ';': token = new Token(Token::SEMICOL,c); break;
         }
         current++;

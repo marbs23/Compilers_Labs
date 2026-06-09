@@ -21,7 +21,14 @@ public:
         NUM,     // Número
         ERR,     // Error
         ID,      // ID
-        LE,
+        AND,     // and
+        OR,      // or
+        LT,      // <
+        LE,      // <=
+        GT,      // >
+        GE,      // >=
+        EQ,      // ==
+        NE,      // !=
         SEMICOL,    
         ASSIGN,
         PRINT,

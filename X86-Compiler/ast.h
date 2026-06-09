@@ -18,7 +18,14 @@ enum BinaryOp {
     MUL_OP, 
     DIV_OP,
     POW_OP,
-    LE_OP
+    AND_OP,
+    OR_OP,
+    LT_OP,
+    LE_OP,
+    GT_OP,
+    GE_OP,
+    EQ_OP,
+    NE_OP
 };
 
 // Clase abstracta Exp

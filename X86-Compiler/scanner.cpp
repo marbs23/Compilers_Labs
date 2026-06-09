@@ -57,6 +57,7 @@ Token* Scanner::nextToken() {
         else if (lexema=="print") return new Token(Token::PRINT, input, first, current - first);
         else if (lexema=="if") return new Token(Token::IF, input, first, current - first);
         else if (lexema=="while") return new Token(Token::WHILE, input, first, current - first);
+        else if (lexema=="break") return new Token(Token::BREAK, input, first, current - first);
         else if (lexema=="then") return new Token(Token::THEN, input, first, current - first);
         else if (lexema=="do") return new Token(Token::DO, input, first, current - first);
         else if (lexema=="endif") return new Token(Token::ENDIF, input, first, current - first);

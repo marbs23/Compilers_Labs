@@ -34,6 +34,7 @@ public:
         PRINT,
         IF,
         WHILE,
+        BREAK,
         DO,
         THEN,
         ENDIF,

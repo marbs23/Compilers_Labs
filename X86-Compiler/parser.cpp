@@ -99,6 +99,8 @@ Stm* Parser::parseStm() {
         ifstm->bodyIf = parseBody();
         if (match(Token::ELSE))
             ifstm->bodyElse = parseBody();
+        else
+            ifstm->bodyElse = new Body();
         match(Token::ENDIF);
         return ifstm;
     }

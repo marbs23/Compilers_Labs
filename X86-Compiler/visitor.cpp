@@ -57,6 +57,10 @@ int GenCodeVisitor::visit(BinaryExp* exp) {
             cout << "addq %rcx, %rax" << endl;
             break;
         }
+        case MINUS_OP:{
+            cout << "subq %rcx, %rax" << endl;
+            break;
+        }
     }
     return 0;
 }
@@ -67,25 +71,54 @@ int GenCodeVisitor::visit(NumberExp* exp) {
 }
 
 int GenCodeVisitor::visit(IdExp* exp) {
-    cout << "movq -" << position[exp->value]*8 << "(%rbp)" << ", %rax" << endl;
+    cout << "movq " << position[exp->value]*-8 << "(%rbp)" << ", %rax" << endl;
     return 0;
 }
 
 void GenCodeVisitor::visit(AssignStm* stm) {
+    if (position.find(stm->id)==position.end()){
+        position[stm->id] = counter;
+        counter++;
+    }
     stm->e->accept(this);
-    position[stm->id] = counter;
-    counter++;
     cout << "movq %rax, -" << position[stm->id]*8 << "(%rbp)" << endl;
-    cout << "";
 }
 
 void GenCodeVisitor::visit(IfStm* stm) {
+    int id = labelCounter++;
+    stm->cond->accept(this);
+    cout << "cmpq $0, %rax" << endl;
+    cout << "je else" << id << endl;
+    for(auto i: stm->bodyIf->slist)
+        i->accept(this);    
+    cout << "jmp endif" << id << endl;
+
+    cout << "else" << id << ":" << endl;
+    for(auto i: stm->bodyElse->slist)
+        i->accept(this);
+    cout << "endif" << id << ":" << endl;
 }
 
 void GenCodeVisitor::visit(WhileStm* stm) {
+    int id = labelCounter++;
+    cout << "while" << id << ":" << endl;
+    stm->cond->accept(this);
+    cout << "cmpq $0, %rax" << endl;
+    cout << "je endwhile" << id << endl;
+    for (auto i : stm->body->slist)
+        i->accept(this);
+    cout << "jmp while" << id << endl;
+    cout << "endwhile" << id << ":" << endl;
 }
 
 void GenCodeVisitor::visit(DoWhileStm* stm) {
+    int id = labelCounter++;
+    cout << "do" << id << ":" << endl;
+    for (auto i : stm->body->slist)
+        i->accept(this);
+    stm->cond->accept(this);
+    cout << "cmpq $0, %rax" << endl;
+    cout << "jne do" << id << endl;
 }
 
 void GenCodeVisitor::visit(PrintStm* stm) {
@@ -104,7 +137,7 @@ void GenCodeVisitor::codigo(Program* program){
     cout << "main:" << endl;
     cout << "pushq %rbp" << endl;
     cout << "movq %rsp, %rbp" << endl;
-
+    cout << "subq $16, %rsp" << endl; 
     for (auto i : program->b->slist){
         i->accept(this);
     }

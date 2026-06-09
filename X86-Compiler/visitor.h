@@ -25,6 +25,7 @@ class GenCodeVisitor : public Visitor {
 public:
     unordered_map<string, int> position;
     int counter = 1;
+    int labelCounter = 0;
     void codigo(Program* program);
     int visit(BinaryExp* exp) override;
     int visit(NumberExp* exp) override;

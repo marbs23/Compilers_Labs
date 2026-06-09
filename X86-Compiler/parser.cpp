@@ -80,21 +80,21 @@ Stm* Parser::parseStm() {
     Stm* a;
     Exp* e;
     string variable;
-    if(match(Token::ID)){
+    if(match(Token::ID)) {
         variable = previous->text;
         match(Token::ASSIGN);
-        e = parseCE();
+        e = parseOR();
         return new AssignStm(variable,e);
     }
-    else if(match(Token::PRINT)){
+    else if(match(Token::PRINT)) {
         match(Token::LPAREN);
-        e = parseCE();
+        e = parseOR();
         match(Token::RPAREN);
         return new PrintStm(e);
     } 
-    else if (match(Token::IF)){
+    else if (match(Token::IF)) {
         IfStm* ifstm = new IfStm();
-        ifstm->cond = parseCE();
+        ifstm->cond = parseOR();
         match(Token::THEN);
         ifstm->bodyIf = parseBody();
         if (match(Token::ELSE))
@@ -104,19 +104,19 @@ Stm* Parser::parseStm() {
         match(Token::ENDIF);
         return ifstm;
     }
-    else if (match(Token::WHILE)){
+    else if (match(Token::WHILE)) {
         WhileStm* whilestm = new WhileStm();
-        whilestm->cond = parseCE();
+        whilestm->cond = parseOR();
         match(Token::DO);
         whilestm->body = parseBody();
         match(Token::ENDWHILE);
         return whilestm;
     }
-    else if (match(Token::DO)){
+    else if (match(Token::DO)) {
         DoWhileStm* dowhilestm = new DoWhileStm();
         dowhilestm->body = parseBody();
         match(Token::WHILE);
-        dowhilestm->cond = parseCE();
+        dowhilestm->cond = parseOR();
         return dowhilestm;
     }    
 
@@ -126,16 +126,47 @@ Stm* Parser::parseStm() {
     return a;
 }
 
-Exp* Parser::parseCE() {
-    Exp* l = parseBE();
-    if (match(Token::LE)) {
-        BinaryOp op = LE_OP;
-        Exp* r = parseBE();
-        l = new BinaryExp(l, r, op);
+Exp* Parser::parseOR() {
+    Exp* l = parseAND();
+    while (match(Token::OR)) {
+        Exp* r = parseAND();
+        l = new BinaryExp(l,r, OR_OP); 
     }
     return l;
 }
 
+Exp* Parser::parseAND() {
+    Exp* l = parseCE();
+    while (match(Token::AND)) {
+        Exp* r = parseCE();
+        l = new BinaryExp(l, r, AND_OP);
+    }
+    return l;
+}
+
+Exp* Parser::parseCE() {
+    Exp* l = parseBE();
+    if (match(Token::LT)) {
+        Exp* r = parseBE();
+        return new BinaryExp(l, r, LT_OP);
+    } else if (match(Token::LE)) {
+        Exp* r = parseBE();
+        return new BinaryExp(l, r, LE_OP);
+    } else if (match(Token::GT)) {
+        Exp* r = parseBE();
+        return new BinaryExp(l, r, GT_OP);
+    } else if (match(Token::GE)) {
+        Exp* r = parseBE();
+        return new BinaryExp(l, r, GE_OP);
+    } else if (match(Token::EQ)) {
+        Exp* r = parseBE();
+        return new BinaryExp(l, r, EQ_OP);
+    } else if (match(Token::NE)) {
+        Exp* r = parseBE();
+        return new BinaryExp(l, r, NE_OP);
+    }
+    return l;
+}
 
 Exp* Parser::parseBE() {
     Exp* l = parseE();

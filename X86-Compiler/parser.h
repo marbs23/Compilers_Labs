@@ -17,6 +17,8 @@ public:
     Program* parseProgram();             // Punto de entrada: analiza un programa completo
     Body* parseBody();
     Stm* parseStm();
+    Exp* parseOR();
+    Exp* parseAND();
     Exp* parseCE();                   // Regla gramatical P
     Exp* parseBE();
     Exp* parseE();                   // Regla gramatical E

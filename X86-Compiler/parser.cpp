@@ -121,14 +121,14 @@ Stm* Parser::parseStm() {
         
         match(Token::CASE);
         match(Token::NUM);
-        int i = stoi(previous->text); // ERROR
+        int i = stoi(previous->text);
         match(Token::COLON);
         Body* b = parseBody();
         switchstm->options[i] = b;
         
         while (match(Token::CASE)) {
             match(Token::NUM);
-            int i = stoi(previous->text); // ERROR
+            int i = stoi(previous->text);
             match(Token::COLON);
             Body* b = parseBody();
             switchstm->options[i] = b;
@@ -142,7 +142,7 @@ Stm* Parser::parseStm() {
         match(Token::ENDSWITCH);
         return switchstm;
     } else if (match(Token::BREAK)) {
-        // return new BreakStm();
+        return new BreakStm();
     } else {
         throw runtime_error("Error sintáctico");
     }

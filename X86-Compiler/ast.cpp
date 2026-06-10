@@ -71,6 +71,10 @@ SwitchStm::~SwitchStm(){}
 DoWhileStm::DoWhileStm(){}
 DoWhileStm::~DoWhileStm(){}
 
+// ------------------ BreakStm ------------------
+BreakStm::BreakStm(){}
+BreakStm::~BreakStm(){}
+
 // ------------------ Body ------------------
 Body::Body(){}
 void Body::add(Stm* a){

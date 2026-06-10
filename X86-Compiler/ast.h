@@ -122,6 +122,12 @@ public:
     ~SwitchStm();
     int accept(Visitor* visitor);
 };
+class BreakStm: public Stm {
+public:
+    BreakStm();
+    ~BreakStm();
+    int accept(Visitor* visitor);
+};
 
 class Body {
 public:

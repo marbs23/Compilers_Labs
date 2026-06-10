@@ -113,6 +113,15 @@ public:
     ~DoWhileStm();
     int accept(Visitor* visitor);
 };
+class SwitchStm: public Stm {
+public:
+    Exp* cond;
+    unordered_map<int,Body*> options;
+    Body* defaultBody;
+    SwitchStm();
+    ~SwitchStm();
+    int accept(Visitor* visitor);
+};
 
 class Body {
 public:

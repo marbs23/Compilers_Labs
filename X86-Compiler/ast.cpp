@@ -63,6 +63,10 @@ IfStm::~IfStm(){}
 WhileStm::WhileStm(){}
 WhileStm::~WhileStm(){}
 
+// ------------------ SwitchStm ------------------
+SwitchStm::SwitchStm(){}
+SwitchStm::~SwitchStm(){}
+
 // ------------------ DoWhileStm ------------------
 DoWhileStm::DoWhileStm(){}
 DoWhileStm::~DoWhileStm(){}

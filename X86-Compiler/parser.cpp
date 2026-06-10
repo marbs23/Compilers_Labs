@@ -114,6 +114,33 @@ Stm* Parser::parseStm() {
         match(Token::WHILE);
         dowhilestm->cond = parseOR();
         return dowhilestm;
+    } else if (match(Token::SWITCH)) {
+        SwitchStm* switchstm = new SwitchStm();
+        switchstm->cond = parseOR();
+        match(Token::THEN);
+        
+        match(Token::CASE);
+        match(Token::NUM);
+        int i = stoi(previous->text); // ERROR
+        match(Token::COLON);
+        Body* b = parseBody();
+        switchstm->options[i] = b;
+        
+        while (match(Token::CASE)) {
+            match(Token::NUM);
+            int i = stoi(previous->text); // ERROR
+            match(Token::COLON);
+            Body* b = parseBody();
+            switchstm->options[i] = b;
+        }
+
+        if (match(Token::DEFAULT)) {
+            match(Token::COLON);
+            switchstm->defaultBody = parseBody();
+        }
+
+        match(Token::ENDSWITCH);
+        return switchstm;
     } else if (match(Token::BREAK)) {
         // return new BreakStm();
     } else {

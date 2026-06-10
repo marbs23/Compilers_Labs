@@ -57,16 +57,20 @@ Token* Scanner::nextToken() {
         else if (lexema=="print") return new Token(Token::PRINT, input, first, current - first);
         else if (lexema=="if") return new Token(Token::IF, input, first, current - first);
         else if (lexema=="while") return new Token(Token::WHILE, input, first, current - first);
+        else if (lexema=="switch") return new Token(Token::SWITCH, input, first, current - first);
         else if (lexema=="break") return new Token(Token::BREAK, input, first, current - first);
         else if (lexema=="then") return new Token(Token::THEN, input, first, current - first);
+        else if (lexema=="case") return new Token(Token::CASE, input, first, current - first);
         else if (lexema=="do") return new Token(Token::DO, input, first, current - first);
         else if (lexema=="endif") return new Token(Token::ENDIF, input, first, current - first);
         else if (lexema=="endwhile") return new Token(Token::ENDWHILE, input, first, current - first);
+        else if (lexema=="endswitch") return new Token(Token::ENDSWITCH, input, first, current - first);
+        else if (lexema=="default") return new Token(Token::DEFAULT, input, first, current - first);
         else if (lexema=="else") return new Token(Token::ELSE, input, first, current - first);
         else return new Token(Token::ID, input, first, current - first);
     }
     // Operadores
-    else if (strchr("+/-*();=<>!|&", c)) {
+    else if (strchr("+/-*();=<>!|&:", c)) {
         switch (c) {
             case '<': {
                 if (current+1 < input.length() && input[current+1] == '='){
@@ -140,6 +144,7 @@ Token* Scanner::nextToken() {
                 break;
             }
             case ';': token = new Token(Token::SEMICOL,c); break;
+            case ':': token = new Token(Token::COLON,c); break;
         }
         current++;
     }

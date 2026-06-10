@@ -61,6 +61,50 @@ int GenCodeVisitor::visit(BinaryExp* exp) {
             cout << "subq %rcx, %rax" << endl;
             break;
         }
+        case AND_OP:{
+            cout << "andq %rcx, %rax" << endl;
+            break;
+        }
+        case OR_OP:{
+            cout << "orq %rcx, %rax" << endl;
+            break;
+        }
+        case LT_OP:{
+            cout << "cmpq %rcx, %rax" << endl;
+            cout << "setl %al" << endl;
+            cout << "movzbq %al, %rax" << endl;
+            break;
+        }
+        case LE_OP:{
+            cout << "cmpq %rcx, %rax" << endl;
+            cout << "setle %al" << endl;
+            cout << "movzbq %al, %rax" << endl;
+            break;
+        }
+        case GT_OP:{
+            cout << "cmpq %rcx, %rax" << endl;
+            cout << "setg %al" << endl;
+            cout << "movzbq %al, %rax" << endl;
+            break;
+        }
+        case GE_OP:{
+            cout << "cmpq %rcx, %rax" << endl;
+            cout << "setge %al" << endl;
+            cout << "movzbq %al, %rax" << endl;
+            break;
+        }
+        case EQ_OP:{
+            cout << "cmpq %rcx, %rax" << endl;
+            cout << "sete %al" << endl;
+            cout << "movzbq %al, %rax" << endl;
+            break;
+        }
+        case NE_OP:{
+            cout << "cmpq %rcx, %rax" << endl;
+            cout << "setne %al" << endl;
+            cout << "movzbq %al, %rax" << endl;
+            break;
+        }
     }
     return 0;
 }

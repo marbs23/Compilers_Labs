@@ -85,14 +85,12 @@ Stm* Parser::parseStm() {
         match(Token::ASSIGN);
         e = parseOR();
         return new AssignStm(variable,e);
-    }
-    else if(match(Token::PRINT)) {
+    } else if(match(Token::PRINT)) {
         match(Token::LPAREN);
         e = parseOR();
         match(Token::RPAREN);
         return new PrintStm(e);
-    } 
-    else if (match(Token::IF)) {
+    } else if (match(Token::IF)) {
         IfStm* ifstm = new IfStm();
         ifstm->cond = parseOR();
         match(Token::THEN);
@@ -103,24 +101,22 @@ Stm* Parser::parseStm() {
             ifstm->bodyElse = new Body();
         match(Token::ENDIF);
         return ifstm;
-    }
-    else if (match(Token::WHILE)) {
+    } else if (match(Token::WHILE)) {
         WhileStm* whilestm = new WhileStm();
         whilestm->cond = parseOR();
         match(Token::DO);
         whilestm->body = parseBody();
         match(Token::ENDWHILE);
         return whilestm;
-    }
-    else if (match(Token::DO)) {
+    } else if (match(Token::DO)) {
         DoWhileStm* dowhilestm = new DoWhileStm();
         dowhilestm->body = parseBody();
         match(Token::WHILE);
         dowhilestm->cond = parseOR();
         return dowhilestm;
-    }    
-
-    else{
+    } else if (match(Token::BREAK)) {
+        // return new BreakStm();
+    } else {
         throw runtime_error("Error sintáctico");
     }
     return a;

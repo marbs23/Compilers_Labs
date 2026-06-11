@@ -62,6 +62,10 @@ Token* Scanner::nextToken() {
         else if (lexema=="then") return new Token(Token::THEN, input, first, current - first);
         else if (lexema=="case") return new Token(Token::CASE, input, first, current - first);
         else if (lexema=="do") return new Token(Token::DO, input, first, current - first);
+        else if (lexema == "fun")     return new Token(Token::FUN,     input, first, current - first);
+        else if (lexema == "var")     return new Token(Token::VAR,     input, first, current - first);
+        else if (lexema == "return")  return new Token(Token::RETURN,  input, first, current - first);
+        else if (lexema == "endfun")  return new Token(Token::ENDFUN,  input, first, current - first);
         else if (lexema=="endif") return new Token(Token::ENDIF, input, first, current - first);
         else if (lexema=="endwhile") return new Token(Token::ENDWHILE, input, first, current - first);
         else if (lexema=="endswitch") return new Token(Token::ENDSWITCH, input, first, current - first);
@@ -85,7 +89,7 @@ Token* Scanner::nextToken() {
                     current++;
                     token = new Token(Token::LE, input, first, current + 1 - first);
                 } else{
-                    token = new Token(Token::LT,  c); break;
+                    token = new Token(Token::LT,  c);
                 }
                 break;
             }
@@ -114,7 +118,7 @@ Token* Scanner::nextToken() {
                     current++;
                     token = new Token(Token::GE, input, first, current + 1 - first);
                 } else{
-                    token = new Token(Token::GT,  c); break;
+                    token = new Token(Token::GT,  c);
                 }
                 break;
             }
@@ -142,7 +146,7 @@ Token* Scanner::nextToken() {
                     current++;
                     token = new Token(Token::EQ, input, first, current + 1 - first);
                 } else{
-                    token = new Token(Token::ASSIGN,c); break;
+                    token = new Token(Token::ASSIGN,c);
                 }
                 break;
             }

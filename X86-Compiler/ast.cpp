@@ -75,13 +75,21 @@ DoWhileStm::~DoWhileStm(){}
 BreakStm::BreakStm(){}
 BreakStm::~BreakStm(){}
 
+// ------------------ ReturnStm ------------------
+ReturnStm::ReturnStm(){}
+ReturnStm::~ReturnStm(){}
+
 // ------------------ Body ------------------
 Body::Body(){}
-void Body::add(Stm* a){
-    slist.push_back(a);
-}
 Body::~Body(){}
 
+// ------------------ VarDec ------------------
+VarDec::VarDec(){}
+VarDec::~VarDec(){}
+
+// ------------------ FunDec ------------------
+FunDec::FunDec(){}
+FunDec::~FunDec(){}
 
 // ------------------ Program ------------------
 Program::Program(){}

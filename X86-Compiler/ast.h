@@ -4,11 +4,13 @@
 #include <string>
 #include <unordered_map>
 #include <list>
+#include <vector>
 #include <ostream>
 
 using namespace std;
 
 class Visitor;
+class VarDec;
 class Body;
 
 // Operadores binarios soportados
@@ -95,7 +97,7 @@ public:
     Body* bodyElse;
     IfStm();
     ~IfStm();
-    int accept(Visitor* visitor);
+    int accept(Visitor* visitor) override;
 };
 class WhileStm: public Stm {
 public:
@@ -103,7 +105,7 @@ public:
     Body* body;
     WhileStm();
     ~WhileStm();
-    int accept(Visitor* visitor);
+    int accept(Visitor* visitor) override;
 };
 class DoWhileStm: public Stm {
 public:
@@ -111,7 +113,7 @@ public:
     Body* body;
     DoWhileStm();
     ~DoWhileStm();
-    int accept(Visitor* visitor);
+    int accept(Visitor* visitor) override;
 };
 class SwitchStm: public Stm {
 public:
@@ -120,27 +122,57 @@ public:
     Body* defaultBody;
     SwitchStm();
     ~SwitchStm();
-    int accept(Visitor* visitor);
+    int accept(Visitor* visitor) override;
 };
 class BreakStm: public Stm {
 public:
     BreakStm();
     ~BreakStm();
-    int accept(Visitor* visitor);
+    int accept(Visitor* visitor) override;
+};
+
+class ReturnStm : public Stm {
+public:
+    Exp* e;
+    ReturnStm();
+    ~ReturnStm();
+    int  accept(Visitor* visitor) override;
 };
 
 class Body {
 public:
+    list<VarDec*> vlist;
     list<Stm*> slist;
-    void add(Stm*);
     int accept(Visitor* visitor);
     Body();
     ~Body();
 };
 
+class VarDec {
+public:
+    string type;
+    list<string> vars;
+    int accept(Visitor* visitor);
+    VarDec();
+    ~VarDec();
+};
+
+class FunDec {
+public:
+    string name;
+    string type;
+    Body* body;
+    vector<string> Ptypes;  
+    vector<string> Pnames;
+    int accept(Visitor* visitor);
+    FunDec();
+    ~FunDec();
+};
+
 class Program {
 public:
-    Body* b;
+    list<VarDec*> vdlist;
+    list<FunDec*> fdlist;
     Program();
     ~Program();
     int accept(Visitor* visitor);

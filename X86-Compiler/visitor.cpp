@@ -42,6 +42,17 @@ int DoWhileStm::accept(Visitor* visitor) {
     return 0;
 }
 
+int ReturnStm::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
+int BreakStm::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
+int SwitchStm::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -115,20 +126,21 @@ int GenCodeVisitor::visit(NumberExp* exp) {
 }
 
 int GenCodeVisitor::visit(IdExp* exp) {
-    cout << "movq " << position[exp->value]*-8 << "(%rbp)" << ", %rax" << endl;
+    cout << "movq -" << position[exp->value]*8 << "(%rbp)" << ", %rax" << endl;
     return 0;
 }
 
-void GenCodeVisitor::visit(AssignStm* stm) {
+int GenCodeVisitor::visit(AssignStm* stm) {
     if (position.find(stm->id)==position.end()){
         position[stm->id] = counter;
         counter++;
     }
     stm->e->accept(this);
     cout << "movq %rax, -" << position[stm->id]*8 << "(%rbp)" << endl;
+    return 0;
 }
 
-void GenCodeVisitor::visit(IfStm* stm) {
+int GenCodeVisitor::visit(IfStm* stm) {
     int id = labelCounter++;
     stm->cond->accept(this);
     cout << "cmpq $0, %rax" << endl;
@@ -141,9 +153,10 @@ void GenCodeVisitor::visit(IfStm* stm) {
     for(auto i: stm->bodyElse->slist)
         i->accept(this);
     cout << "endif" << id << ":" << endl;
+    return 0;
 }
 
-void GenCodeVisitor::visit(WhileStm* stm) {
+int GenCodeVisitor::visit(WhileStm* stm) {
     int id = labelCounter++;
     cout << "while" << id << ":" << endl;
     stm->cond->accept(this);
@@ -153,9 +166,10 @@ void GenCodeVisitor::visit(WhileStm* stm) {
         i->accept(this);
     cout << "jmp while" << id << endl;
     cout << "endwhile" << id << ":" << endl;
+    return 0;
 }
 
-void GenCodeVisitor::visit(DoWhileStm* stm) {
+int GenCodeVisitor::visit(DoWhileStm* stm) {
     int id = labelCounter++;
     cout << "do" << id << ":" << endl;
     for (auto i : stm->body->slist)
@@ -163,16 +177,18 @@ void GenCodeVisitor::visit(DoWhileStm* stm) {
     stm->cond->accept(this);
     cout << "cmpq $0, %rax" << endl;
     cout << "jne do" << id << endl;
+    return 0;
 }
 
-void GenCodeVisitor::visit(PrintStm* stm) {
+int GenCodeVisitor::visit(PrintStm* stm) {
     stm->e->accept(this);
     cout << "movq %rax, %rsi" << endl;
     cout << "leaq print_fmt(%rip), %rdi" << endl;
     cout << "call printf@PLT" << endl;
+    return 0;
 }
 
-void GenCodeVisitor::codigo(Program* program){
+int GenCodeVisitor::codigo(Program* program){
     // PROLOGUE
     cout << ".data" << endl;
     cout << "print_fmt: .string \"%ld\\n\" " << endl;
@@ -182,13 +198,44 @@ void GenCodeVisitor::codigo(Program* program){
     cout << "pushq %rbp" << endl;
     cout << "movq %rsp, %rbp" << endl;
     cout << "subq $16, %rsp" << endl; 
+    /*
     for (auto i : program->b->slist){
         i->accept(this);
     }
+    */
     
     // EPILOGUE
     cout << "movq $0, %rax" << endl;
     cout << "leave" << endl;
     cout << "ret" << endl;
     cout << ".section .note.GNU-stack,\"\",@progbits" << endl;
+    return 0;
 };
+
+int GenCodeVisitor::visit(SwitchStm* vd) {
+    return 0;
+}
+
+int GenCodeVisitor::visit(Body* vd) {
+    return 0;
+}
+
+int GenCodeVisitor::visit(VarDec* vd) {
+    return 0;
+}
+
+int GenCodeVisitor::visit(FcallExp* exp) {
+    return 0;
+}
+
+int GenCodeVisitor::visit(BreakStm* stm) {
+    return 0;
+}
+
+int GenCodeVisitor::visit(ReturnStm* stm) {
+    return 0;
+}
+
+int GenCodeVisitor::visit(FunDec* fd) {
+    return 0;
+}

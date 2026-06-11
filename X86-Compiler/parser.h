@@ -15,11 +15,13 @@ private:
 public:
     Parser(Scanner* scanner);       
     Program* parseProgram();             // Punto de entrada: analiza un programa completo
+    VarDec* parseVarDec();
+    FunDec* parseFunDec();
     Body* parseBody();
     Stm* parseStm();
-    Exp* parseOR();
+    Exp* parseCE();
     Exp* parseAND();
-    Exp* parseCE();                   // Regla gramatical P
+    Exp* parseREL();                   // Regla gramatical P
     Exp* parseBE();
     Exp* parseE();                   // Regla gramatical E
     Exp* parseT();                   // Regla gramatical T
